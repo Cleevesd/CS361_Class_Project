@@ -24,6 +24,15 @@ public class Board {
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 		// TODO Implement
+		if(isVertical && (x-1) + ship.getOccupiedSquares().size() < 10) {  //boundary control
+			int j = 0; //for updating the ship's row and column
+			for (int i = x-1; i < (x-1) + ship.getOccupiedSquares().size(); i++) {
+				ship.getOccupiedSquares().get(j).setRow(i);
+				ship.getOccupiedSquares().get(j).setColumn(y);
+				//update board?
+				j++;
+			}
+		}
 		return false;
 	}
 
