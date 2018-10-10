@@ -10,6 +10,13 @@ public class Board {
 	 */
 	public Board() {
 		// TODO Implement
+		ArrayList<Square> board = new ArrayList<Square>();
+		char [] columns = {'A','B','C','D','E','F','G','H','I','J'};
+		for (int i = 0; i < 10; i++){
+			for (int j = 0; j < 10; j++){
+				board.add(new Square(i,columns[j]));
+			}
+		}
 	}
 
 	/*

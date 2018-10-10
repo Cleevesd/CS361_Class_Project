@@ -15,6 +15,15 @@ public class Ship {
 	
 	public Ship(String kind) {
 		//TODO implement
+        if (kind.equals("Minesweeper")){
+            
+        }
+        else if (kind.equals("Destroyer")){
+
+        }
+        else if (kind.equals("Battleship")){
+
+        }
 	}
 
 	public List<Square> getOccupiedSquares() {
