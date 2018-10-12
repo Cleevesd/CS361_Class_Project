@@ -20,12 +20,13 @@ public class Game {
         if (!successful)
             return false;
 
+        Ship s2 = new Ship(ship.getKind());
         boolean opponentPlacedSuccessfully;
-        /*do {
+        do {
             // AI places random ships, so it might try and place overlapping ships
             // let it try until it gets it right
-            opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical());
-        } while (!opponentPlacedSuccessfully);*/
+            opponentPlacedSuccessfully = opponentsBoard.placeShip(s2, randRow(), randCol(), randVertical());
+        } while (!opponentPlacedSuccessfully);
 
         return true;
     }
