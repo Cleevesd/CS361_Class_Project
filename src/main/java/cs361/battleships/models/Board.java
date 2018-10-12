@@ -35,19 +35,17 @@ public class Board {
 		}
 
 
-		Square tmp = new Square(); // Temp square to hold ship object
 		int ship_size = ship.getShip_size(); // Get ship size for loops
 		List<Square> shipBoard = new ArrayList<Square>();
 
 		if(isVertical && (x + ship_size) <= 11) {  //boundary control
 			for (int i = 0; i < ship_size; i++) { // Placing ship location
-				tmp.setRow(x);
-				tmp.setColumn(y);// Add location to board
-				tmp.setFilled(true);
+
 				shipBoard.add(new Square(x+i, y)); // Adds ship location to the ship board
 
 			}
             ships.add(ship); // Add new ship to list of ships
+			ship.setOccupiedSquares(shipBoard);
 			System.out.println(ship.getOccupiedSquares());
 			//System.out.println(shipBoard.get(1).getRow());
 			//System.out.println(shipBoard.get(1).getColumn());
@@ -57,9 +55,7 @@ public class Board {
 		}
 		else if(!isVertical && (k + ship_size) < 11) { // Boundary Control
 			for (int i = 0; i < ship_size; i++) {
-				tmp.setRow(x);
-				tmp.setColumn(y);
-				tmp.setFilled(true);
+
 				shipBoard.add(new Square(x,(char)(y+i)));
 			}
 
