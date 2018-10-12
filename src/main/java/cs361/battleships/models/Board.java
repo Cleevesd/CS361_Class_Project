@@ -113,8 +113,9 @@ public class Board {
 							return result;
 						}
 					}
-
+					return result;
 				}
+
 			}
 		}
 
