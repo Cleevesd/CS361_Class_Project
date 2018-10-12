@@ -8,6 +8,7 @@ public class Board {
 	private char [] columns = {'A','B','C','D','E','F','G','H','I','J'};
 	private List<Ship> ships;
 	private List<Square> shipBoard;
+	private List<Result> previousAttacks;
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -15,6 +16,7 @@ public class Board {
 		// TODO Implement
 		ships = new ArrayList<Ship>(); // A list of what ships you've used
 		shipBoard = new ArrayList<Square>();
+		previousAttacks = new ArrayList<Result>();
 	}
 
 	/*
@@ -72,7 +74,59 @@ public class Board {
 	 */
 	public Result attack(int x, char y) {
 		//TODO Implement
-		return null;
+		Square attackedTo = new Square(x,y);
+		Result result = new Result();
+		AtackStatus status;
+
+		if( x < 1 || x > 10 || y < 'A' || y > 'J') { // bounds check
+			status = AtackStatus.INVALID;
+			result.setResult(status);
+			return result;
+		}
+
+		// check for if it is shot before
+		for(int i = 0; i < previousAttacks.size(); i++) {
+			if(previousAttacks.get(i).getLocation().getRow() == attackedTo.getRow() && previousAttacks.get(i).getLocation().getColumn() == attackedTo.getColumn()){
+				status = AtackStatus.INVALID;
+				result.setResult(status);
+				return result;
+			}
+		}
+
+		for(int i = 0; i < ships.size(); i++) {
+			for(int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+				if(ships.get(i).getOccupiedSquares().get(j).getRow() == attackedTo.getRow() && ships.get(i).getOccupiedSquares().get(j).getColumn() == attackedTo.getColumn()) {
+					status = AtackStatus.HIT;
+					result.setResult(status);
+					result.setLocation(attackedTo);
+					previousAttacks.add(result);
+					// if it is a hit remove the occupied square
+					ships.get(i).getOccupiedSquares().remove(ships.get(i).getOccupiedSquares().get(j));
+					if(ships.get(i).getOccupiedSquares().size() == 0) {
+						status = AtackStatus.SUNK;
+						result.setResult(status);
+						// if the all occupied squares are removed, remove the ship
+						ships.remove(ships.get(i));
+						if(ships.size() == 0){
+							status = AtackStatus.SURRENDER;
+							result.setResult(status);
+							return result;
+						}
+<<<<<<< HEAD
+						return result;
+=======
+					return result;	
+>>>>>>> 9c949cb829f796afda1d3c5eff6d3cedb02a8c23
+					}
+				return result;
+				}
+
+			}
+		}
+
+
+		return result;
+
 	}
 
 	public List<Ship> getShips() {
@@ -87,10 +141,12 @@ public class Board {
 
 	public List<Result> getAttacks() {
 		//TODO implement
-		return null;
+		return previousAttacks;
+
 	}
 
 	public void setAttacks(List<Result> attacks) {
 		//TODO implement
+		previousAttacks = attacks;
 	}
 }
