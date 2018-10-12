@@ -53,7 +53,12 @@ To complete this assignment, each group needs to do the following:
 * **Billie Thompson** - *Original creator of README-Template.md* - [README Template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 * **Caius Brindescu** - *Course Instructor (CS 361)* - [Original Instructions for Sprint 1](https://cs361fall2018.github.io/assignments/sprint1/)
 
+## Contributors
 
+* **Cleevesd** - *Team 22* - [GitHub Profile](https://github.com/Cleevesd)
+* **mertdedekoy** - *Team 22* - [GitHub Profile](https://github.com/mertdedekoy)
+* **AHazy** - *Team 22* - [GitHub Profile](https://github.com/AHazy)
+* **AdamTogether** - *Team 22* - [GitHub Profile](https://github.com/AdamTogether)
 
 ## Acknowledgments
 
