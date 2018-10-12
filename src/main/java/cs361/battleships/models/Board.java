@@ -27,10 +27,10 @@ public class Board {
 		for(int i = 0; i < ships.size(); i++) {
 			System.out.println(ships.get(i).getKind());
 			if(ships.get(i).getKind().equals(ship.getKind())) { // Checks ships ArrayList and compares to current ship, if any are equal return false
-				System.out.println("Already used that ship type try again");
 				return false;
 			}
 		}
+
 		int k = 0;
 		for(int i = 0; i < 10; i++) { // Changing char to int for column
 			if(columns[i] == y)
@@ -39,9 +39,24 @@ public class Board {
 
 
 		int ship_size = ship.getShip_size(); // Get ship size for loops
-		//List<Square> shipBoard = new ArrayList<Square>();
 
 		if(isVertical && (x + ship_size) <= 11) {  //boundary control
+
+
+			for(int i = 0; i < ships.size(); i++) {
+				for(int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+					for(int l = 0; l < ship_size; l++) {
+						if(ships.get(i).getOccupiedSquares().get(j).getRow() == x+l && ships.get(i).getOccupiedSquares().get(j).getColumn() == y) {
+							return false;
+						}
+						else if(ships.get(i).getOccupiedSquares().get(j).getRow() == x && ships.get(i).getOccupiedSquares().get(j).getColumn() == y) {
+							return false;
+						}
+					}
+
+				}
+			}
+
 			for (int i = 0; i < ship_size; i++) { // Placing ship location
 				shipBoard.add(new Square(x+i, y)); // Adds ship location to the ship board
 
@@ -55,14 +70,25 @@ public class Board {
             return true;
 		}
 		else if(!isVertical && (k + ship_size) < 11) { // Boundary Control
+			for(int i = 0; i < ships.size(); i++) {
+				for(int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+					for(int l = 0; l < ship_size; l++) {
+						if(ships.get(i).getOccupiedSquares().get(j).getRow() == x && ships.get(i).getOccupiedSquares().get(j).getColumn() == y+l) {
+							return false;
+						}
+						else if(ships.get(i).getOccupiedSquares().get(j).getRow() == x && ships.get(i).getOccupiedSquares().get(j).getColumn() == y) {
+							return false;
+						}
+					}
+
+				}
+			}
 			for (int i = 0; i < ship_size; i++) {
 				shipBoard.add(new Square(x,(char)(y+i)));
 			}
 
 			ship.setOccupiedSquares(shipBoard);
 			ships.add(ship);
-			System.out.println(ship.getOccupiedSquares());
-
 
 			return true;
 		}
