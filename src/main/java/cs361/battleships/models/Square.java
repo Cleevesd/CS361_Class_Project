@@ -5,7 +5,7 @@ public class Square {
 
 	private int row;
 	private char column;
-	private boolean filled;
+
 	
 	public Square(){
 	}
@@ -13,15 +13,7 @@ public class Square {
 	public Square(int row, char column) {
 		this.row = row;
 		this.column = column;
-		filled = false;
-	}
 
-	public boolean isFilled() {
-		return filled;
-	}
-
-	public void setFilled(boolean filled) {
-		this.filled = filled;
 	}
 
 	public char getColumn() {

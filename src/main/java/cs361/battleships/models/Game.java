@@ -21,6 +21,7 @@ public class Game {
             return false;
 
         Ship s2 = new Ship(ship.getKind());
+
         boolean opponentPlacedSuccessfully;
         do {
             // AI places random ships, so it might try and place overlapping ships
@@ -40,6 +41,8 @@ public class Game {
             return false;
         }
 
+
+
         Result opponentAttackResult;
         do {
             // AI does random attacks, so it might attack the same spot twice
@@ -51,22 +54,17 @@ public class Game {
     }
 
     private char randCol() {
-        char [] chars = {'A','B','C','D','E','F','G','H','I','J'};
-        char sender = 'A';
-        int rand;
-        rand = (int)(Math.random() * 10);
-        sender = chars[rand];
-        return sender;
+        // TODO implement
+        return 'X';
     }
 
     private int randRow() {
-        int rand;
-        rand = 1 + (int)(Math.random() * ((10 - 1) + 1)); // Returns random int [0,10)
-        return rand;
+        // TODO implement
+        return 0;
     }
 
     private boolean randVertical() {
-        boolean sender = Math.random() < 0.5;
-        return sender;
+        // TODO implement
+        return false;
     }
 }
