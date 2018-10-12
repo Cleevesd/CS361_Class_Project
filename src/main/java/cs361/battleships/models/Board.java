@@ -113,15 +113,16 @@ public class Board {
 							return result;
 						}
 						return result;
-
 					}
 				return result;
 				}
 
 			}
 		}
-
-
+		status = AtackStatus.MISS;
+		result.setResult(status);
+		result.setLocation(attackedTo);
+		previousAttacks.add(result);
 		return result;
 
 	}
