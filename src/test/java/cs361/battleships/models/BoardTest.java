@@ -55,6 +55,8 @@ public class BoardTest {
         result = board.attack(4,'B');
         assertTrue(result.getResult() == AtackStatus.HIT);
         result = board.attack(5,'B');
+
+        //this test is not working although our function outputs SUNK.
         assertTrue(result.getResult() == AtackStatus.SUNK);
 
     }
