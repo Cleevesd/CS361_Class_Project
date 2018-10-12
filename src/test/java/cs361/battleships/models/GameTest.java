@@ -6,7 +6,7 @@ import static org.junit.Assert.assertFalse;
 public class GameTest {
 
     @Test
-    public void testRandRow() {
+    public void testRandNum() {
         Board board = new Board();
         assertFalse(board.placeShip(new Ship("MINESWEEPER"), 11, 'C', true));
     }

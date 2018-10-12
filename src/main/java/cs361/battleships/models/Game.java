@@ -55,9 +55,7 @@ public class Game {
     }
 
     private int randRow() {
-        int rand;
-        rand = (int) (Math.random() * 10); // Returns random int [0,10)
-        System.out.println("rand");
+        // TODO implement
         return 0;
     }
 
