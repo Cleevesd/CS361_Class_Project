@@ -2,8 +2,10 @@ package cs361.battleships.models;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class BoardTest {
 
@@ -14,7 +16,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testValidPLacement() {
+    public void testValidPlacement() {
         Board board = new Board();
         assertTrue(board.placeShip(new Ship("BATTLESHIP"), 5, 'E', false));
     }
@@ -27,9 +29,8 @@ public class BoardTest {
         board.placeShip(new Ship("MINESWEEPER"),7,'G',false);
         result = board.attack(4,'F');
         result1 = board.attack(4,'F');
-     //   result = board.attack(2,'Z');
         assertTrue(result1.getResult() == AtackStatus.INVALID);
-       // assertTrue(result.getResult() == AtackStatus.INVALID);
+
     }
 
 
@@ -50,10 +51,12 @@ public class BoardTest {
         Result result = new Result();
         board.placeShip(new Ship("MINESWEEPER"),4,'B',true);
         board.placeShip(new Ship("MINESWEEPER"),6,'D',true);
+      //  board.placeShip(new Ship("BATTLESHIP"),2,'D',true);
         result = board.attack(4,'B');
         assertTrue(result.getResult() == AtackStatus.HIT);
         result = board.attack(5,'B');
         assertTrue(result.getResult() == AtackStatus.SUNK);
+
     }
 
     @Test
