@@ -1,5 +1,7 @@
 # Battleship (Sprint 1)
 
+This repository contains the code written by team 22 for Sprint 1 of the Battleship group project as assigned in CS 361 (Software Engineering I) at Oregon State University. The following rules were given in the assignment.
+
 ## Game Rules
 
 ### Game Objective
@@ -49,7 +51,7 @@ To complete this assignment, each group needs to do the following:
 ## Authors
 
 * **Billie Thompson** - *Original creator of README-Template.md* - [README Template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* **Caius Brindescu** - *Original instructions* - [Sprint 1](https://cs361fall2018.github.io/assignments/sprint1/)
+* **Caius Brindescu** - *Course Instructor (CS 361)* - [Original Instructions for Sprint 1](https://cs361fall2018.github.io/assignments/sprint1/)
 
 
 
