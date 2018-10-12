@@ -7,21 +7,13 @@ public class Board {
 
 	private char [] columns = {'A','B','C','D','E','F','G','H','I','J'};
 	private List<Ship> ships;
-	private Square [][] board; // Saw this implementation of the array and decided to try it
+	private ArrayList<Square> board; // Saw this implementation of the array and decided to try it
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
 		// TODO Implement
-		board = new Square[10][10];
-		char col = 'A';
-		for (int i = 0; i < 10; i++){
-			for (int j = 0; j < 10; j++){
-				board[i][j] = new Square(i,col);
-				col++;
-			}
-		}
-		ships = new ArrayList<Ship>();
+		ships = new ArrayList<Ship>(); // A list of what ships you've used
 	}
 
 	/*
@@ -29,50 +21,36 @@ public class Board {
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 		// TODO Implement
-		int k = 0; //for the column number of the placement
-		for(int i = 0; i < 10; i++) {
+		int k = 0;
+		for(int i = 0; i < 10; i++) { // Changing char to int for column
 			if(columns[i] == y)
 				k = i;
 		}
-		x = x-1;
 
-		List <Square> tmp = new ArrayList<Square>();
-		int ship_size = ship.getShip_size();
+		Square tmp = new Square(); // Temp square to hold ship object
+		int ship_size = ship.getShip_size(); // Get ship size for loops
+		List<Square> shipBoard = new ArrayList<Square>();
 
-		if(isVertical && (x + ship_size) < 9) {  //boundary control
-			for (int i = x; i < (x + ship_size); i++) {
-			    if (board[i][k].isFilled() == true) { // Error msg for if square if filled with a ship already
-			        System.out.println("A ship is already placed here");
-			        return false;
-                }
-                else {
-                    tmp.add(board[i][k]); // Add location to board
-                }
+		if(isVertical && (x + ship_size) <= 11) {  //boundary control
+			for (int i = 0; i < ship_size; i++) { // Placing ship location
+				tmp.setRow(x);
+				tmp.setColumn(y);// Add location to board
+				shipBoard.add(new Square(x+i, y)); // Adds ship location to the ship board
+
 			}
-            for(int i = 0; i < tmp.size(); i++) {
-                tmp.get(i).setFilled(true); // Set filled to true
-            }
-            ship.setOccupiedSquares(tmp); // Set the occupied squares to the ship
+			ship.setOccupiedSquares(shipBoard); // Sets occupied squares for the ship
             ships.add(ship); // Add new ship to list of ships
             return true;
 		}
-		else if(!isVertical && (k + ship_size) < 9) {
-			for (int i = k; i < k+ship_size; i++) {
-                if (board[x][i].isFilled() == true) {
-                    System.out.println("A ship is already placed here");
-                    return false;
-                }
-                else {
-                    tmp.add(board[x][i]);
-                    tmp.get(i).setFilled(true);
-                    ship.setOccupiedSquares(tmp);
-                    ships.add(ship);
-                }
+		else if(!isVertical && (k + ship_size) < 11) { // Boundary Control
+			for (int i = 0; i < ship_size; i++) {
+				tmp.setRow(x);
+				tmp.setColumn(y);
+				shipBoard.add(new Square(x,(char)(y+i)));
 			}
-			//for(int i = 0; i < tmp.size(); i++) {
-			//    tmp.get(i).setFilled(true);
-           // }
 
+			ship.setOccupiedSquares(shipBoard);
+			ships.add(ship);
 			return true;
 		}
 		return false;

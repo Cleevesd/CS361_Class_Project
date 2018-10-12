@@ -20,11 +20,11 @@ public class Ship {
 		//adding squares for ships. The ships' boxes' row and column will be set while placing
 		//occupiedSquares = new ArrayList<>();
 		this.kind = kind;
-		if (kind.equals("Minesweeper")) {
+		if (kind.equals("MINESWEEPER")) {
 			this.ship_size = 2;
-		} else if (kind.equals("Destroyer")) {
+		} else if (kind.equals("DESTROYER")) {
 			this.ship_size = 3;
-		} else if (kind.equals("Battleship")) {
+		} else if (kind.equals("BATTLESHIP")) {
 			this.ship_size = 4;
 		}
 		occupiedSquares = new ArrayList<>();
@@ -47,5 +47,12 @@ public class Ship {
 		return occupiedSquares;
 	}
 
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
+
+	public String getKind() {
+		return kind;
+	}
 
 }

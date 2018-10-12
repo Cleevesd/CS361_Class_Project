@@ -8,9 +8,6 @@ public class Square {
 	private boolean filled;
 	
 	public Square(){
-		row = 0;
-		column = 'A';
-		filled = false;
 	}
 
 	public Square(int row, char column) {
