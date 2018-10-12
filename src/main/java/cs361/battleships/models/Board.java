@@ -112,11 +112,8 @@ public class Board {
 							result.setResult(status);
 							return result;
 						}
-<<<<<<< HEAD
 						return result;
-=======
-					return result;	
->>>>>>> 9c949cb829f796afda1d3c5eff6d3cedb02a8c23
+
 					}
 				return result;
 				}
