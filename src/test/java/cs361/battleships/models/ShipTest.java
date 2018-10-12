@@ -20,6 +20,6 @@ public class ShipTest {
     @Test
     public void testOccupiedSquares() {
         Ship ship = new Ship();
-        Assert.assertNull(ship);
+        Assert.assertNull(ship.getOccupiedSquares());
     }
 }
