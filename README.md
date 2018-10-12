@@ -55,10 +55,10 @@ To complete this assignment, each group needs to do the following:
 
 ## Contributors
 
-* **Cleevesd** - *Team 22* - [GitHub Profile](https://github.com/Cleevesd)
-* **mertdedekoy** - *Team 22* - [GitHub Profile](https://github.com/mertdedekoy)
-* **AHazy** - *Team 22* - [GitHub Profile](https://github.com/AHazy)
-* **AdamTogether** - *Team 22* - [GitHub Profile](https://github.com/AdamTogether)
+* **Cleevesd** - *Team 22* - [GitHub](https://github.com/Cleevesd)
+* **mertdedekoy** - *Team 22* - [GitHub](https://github.com/mertdedekoy)
+* **AHazy** - *Team 22* - [GitHub](https://github.com/AHazy)
+* **AdamTogether** - *Team 22* - [GitHub](https://github.com/AdamTogether)
 
 ## Acknowledgments
 
