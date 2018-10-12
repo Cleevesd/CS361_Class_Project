@@ -20,6 +20,20 @@ public class BoardTest {
     }
 
     @Test
+    public void testOverlapPlacement(){
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 5, 'A', false));
+        assertFalse(board.placeShip(new Ship("DESTROYER"), 5, 'A', false));
+    }
+
+    @Test
+    public void testMultipleKind() {
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false));
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 5, 'D', false));
+    }
+
+    @Test
     public  void  testInValidAttack() {
         Board board = new Board();
         Result result = new Result();
