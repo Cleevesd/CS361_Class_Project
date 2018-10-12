@@ -68,17 +68,5 @@ public class Game {
     private boolean randVertical() {
         boolean sender = Math.random() < 0.5; // returns random Bool
         return sender;
-        // TODO implement
-        return 'X';
-    }
-
-    private int randRow() {
-        // TODO implement
-        return 0;
-    }
-
-    private boolean randVertical() {
-        // TODO implement
-        return false;
     }
 }
