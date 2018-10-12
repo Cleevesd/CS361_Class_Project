@@ -7,14 +7,14 @@ public class Board {
 
 	private char [] columns = {'A','B','C','D','E','F','G','H','I','J'};
 	private List<Ship> ships;
-	private List<Square> shipLocation;
+	private List<Square> shipBoard;
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
 		// TODO Implement
 		ships = new ArrayList<Ship>(); // A list of what ships you've used
-		shipLocation = new ArrayList<Square>();
+		shipBoard = new ArrayList<Square>();
 	}
 
 	/*
@@ -23,6 +23,7 @@ public class Board {
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 		// TODO Implement
 		for(int i = 0; i < ships.size(); i++) {
+			System.out.println(ships.get(i).getKind());
 			if(ships.get(i).getKind().equals(ship.getKind())) { // Checks ships ArrayList and compares to current ship, if any are equal return false
 				System.out.println("Already used that ship type try again");
 				return false;
@@ -36,31 +37,30 @@ public class Board {
 
 
 		int ship_size = ship.getShip_size(); // Get ship size for loops
-		List<Square> shipBoard = new ArrayList<Square>();
+		//List<Square> shipBoard = new ArrayList<Square>();
 
 		if(isVertical && (x + ship_size) <= 11) {  //boundary control
 			for (int i = 0; i < ship_size; i++) { // Placing ship location
-
 				shipBoard.add(new Square(x+i, y)); // Adds ship location to the ship board
 
 			}
-            ships.add(ship); // Add new ship to list of ships
 			ship.setOccupiedSquares(shipBoard);
+            ships.add(ship); // Add new ship to list of ships
 			System.out.println(ship.getOccupiedSquares());
-			//System.out.println(shipBoard.get(1).getRow());
-			//System.out.println(shipBoard.get(1).getColumn());
+
 
 
             return true;
 		}
 		else if(!isVertical && (k + ship_size) < 11) { // Boundary Control
 			for (int i = 0; i < ship_size; i++) {
-
 				shipBoard.add(new Square(x,(char)(y+i)));
 			}
 
 			ship.setOccupiedSquares(shipBoard);
 			ships.add(ship);
+			System.out.println(ship.getOccupiedSquares());
+
 
 			return true;
 		}
