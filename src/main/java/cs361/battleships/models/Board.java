@@ -112,6 +112,7 @@ public class Board {
 							result.setResult(status);
 							return result;
 						}
+						return result;
 					}
 					return result;
 				}
