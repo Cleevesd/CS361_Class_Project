@@ -21,11 +21,11 @@ public class Game {
             return false;
 
         boolean opponentPlacedSuccessfully;
-        do {
+        /*do {
             // AI places random ships, so it might try and place overlapping ships
             // let it try until it gets it right
             opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical());
-        } while (!opponentPlacedSuccessfully);
+        } while (!opponentPlacedSuccessfully);*/
 
         return true;
     }
@@ -50,17 +50,22 @@ public class Game {
     }
 
     private char randCol() {
-        // TODO implement
-        return 'X';
+        char [] chars = {'A','B','C','D','E','F','G','H','I','J'};
+        char sender = 'A';
+        int rand;
+        rand = (int)(Math.random() * 10);
+        sender = chars[rand];
+        return sender;
     }
 
     private int randRow() {
-        // TODO implement
-        return 0;
+        int rand;
+        rand = 1 + (int)(Math.random() * ((10 - 1) + 1)); // Returns random int [0,10)
+        return rand;
     }
 
     private boolean randVertical() {
-        // TODO implement
-        return false;
+        boolean sender = Math.random() < 0.5;
+        return sender;
     }
 }
