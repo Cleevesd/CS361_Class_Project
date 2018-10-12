@@ -4,19 +4,19 @@ public class Result {
 
 	private Ship ship;
 	private Square square;
+	private AtackStatus status;
 
-	public Result(Ship ship, Square square) {
-		this.ship = ship;
-		this.square = square;
+	public Result() {
 	}
 
 	public AtackStatus getResult() {
 		//TODO implement
-		return null;
+		return status;
 	}
 
 	public void setResult(AtackStatus result) {
 		//TODO implement
+		status = result;
 	}
 
 	public Ship getShip() {
