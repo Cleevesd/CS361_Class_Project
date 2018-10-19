@@ -50,7 +50,7 @@ To complete this assignment, each group needs to do the following:
 
 ## Authors
 
-* **Billie Thompson** - *Original creator of README-Template.md* - [README Template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+* **Billie Thompson** - *Original creator of "README-Template.md"* - [README Template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 * **Caius Brindescu** - *Course Instructor (CS 361)* - [Original Instructions for Sprint 1](https://cs361fall2018.github.io/assignments/sprint1/), [Sprint 2](https://cs361fall2018.github.io/assignments/sprint2/)
 
 ## Contributors
