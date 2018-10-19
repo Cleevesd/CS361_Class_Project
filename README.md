@@ -1,6 +1,6 @@
-# Battleship (Team 22)
+# Battleship
 
-This repository contains the code written by team 22 for Sprint 1 of the Battleship group project as assigned in CS 361 (Software Engineering I) at Oregon State University. The following rules were given in the assignment.
+This repository contains the code written by team 22 for Sprints 1 and 2 of the Battleship group project as assigned in CS 361 (Software Engineering I) at Oregon State University. The following rules were given in the assignment.
 
 ## Game Rules
 
