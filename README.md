@@ -92,7 +92,7 @@ For this sprint, each group needs to do the following:
 
 7. **Implement the code for your paper prototype as new interface for your application.** This will include:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Divide work up so that each team member has at least one task:
+&nbsp;&nbsp;&nbsp;&nbsp;• Divide work up so that each team member has at least one task:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• Input tasks into Github Issue Tracker, and assign each team member at least one task.
 
