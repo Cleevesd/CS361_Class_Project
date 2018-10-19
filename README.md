@@ -78,11 +78,11 @@ For this sprint, each group needs to do the following:
 
 5. **Merge the best ideas from top 3 designs into a single paper prototype.** Work together as a group to create a new paper drawing that incorporates the best ideas from the 3 top choices. For this last one, you will need to turn in three different versions of the same design. This one "best" design should be drawn three times, once in each of the following states:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• **Regular:** This is how it will look when the user is in the middle of playing a game.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• **Regular:** This is how it will look when the user is in the middle of playing a game.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• **Blank:** This is how it will look when the user starts a new game.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• **Blank:** This is how it will look when the user starts a new game.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• **Error:** This is how it will look when the user tries to do an illegal ship placement or attack.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• **Error:** This is how it will look when the user tries to do an illegal ship placement or attack.
 
 6. **As a group analyze the usability of your prototype.** On a separate Wiki page, describe your [Sprint 2](https://cs361fall2018.github.io/assignments/sprint2/) prototype according to Nielsen's 5 quality components of usability [link](https://www.nngroup.com/articles/usability-101-introduction-to-usability/). For each of the quality components, describe how your prototype addresses that component. If a component is not pertitent to your prototype, specify why that component is not applicable to your prototype.
 
