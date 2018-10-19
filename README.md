@@ -2,6 +2,8 @@
 
 This repository contains the code written by team 22 for Sprints 1 and 2 of the Battleship group project as assigned in CS 361 (Software Engineering I) at Oregon State University.
 
+&nbsp;
+
 The following instructions were given for this assignment:
 
 # *Sprint 1*
@@ -45,6 +47,8 @@ To complete this assignment, each group needs to do the following:
 8. Tag the final version with sprint-1. Don’t forget to push the tags to GitHub, with git push --tags. This is the version we will grade!
 
 9. (Optional) Complete this survey to give feedback regarding your team member's contribution to the sprint. Complete one survey for each team member you would like to give feedback for.
+
+&nbsp;
 
 # *Sprint 2*
 
@@ -101,6 +105,8 @@ Divide work up so that each team member has at least one task:
 8. Tag the final version with sprint-2. Don’t forget to push the tags to GitHub, with git push --tags. **This is the version we will grade!**
 
 9. (Optional) Complete [this survey](https://goo.gl/forms/jzvDOPanWHOMLjBq1) to give feedback regarding your team member's contribution to the sprint. Complete one survey for each team member you would like to give feedback for.
+
+&nbsp;
 
 ## Built With
 
