@@ -62,5 +62,5 @@ To complete this assignment, each group needs to do the following:
 
 ## Acknowledgments
 
-* Teamwork makes the dreamwork.
+* Teamwork makes the dream work.
 
