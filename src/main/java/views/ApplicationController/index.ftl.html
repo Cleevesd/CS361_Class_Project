@@ -4,8 +4,22 @@
 
 <h1>The Battleship game</h1>
 
+<fieldset style = "width:200px">
+    <p>
+        <input type = "text" id = "Text1" value = "Enter your name" class= "myText" />
+        <label> 's Sea </label>
+     </p>
+</fieldset>
+
 <table id="opponent" class="battleGrid">
 </table>
+
+<fieldset style = "width:200px">
+    <p>
+        <input type = "text" id = "Text2" value = "Enter enemy's name" class= "myText" />
+        <label> 's Sea </label>
+    </p>
+</fieldset>
 
 <table id="player" class="battleGrid">
 </table>
@@ -16,6 +30,8 @@
     <li><button id="place_battleship">Place Battleship</button></li>
     <li><input type="checkbox" id="is_vertical">Vertical</input></li>
 </ul>
+
+<input type="button" value="Restart Game" onClick="window.location.reload()" style="float: right;" >
 
 <script type="text/javascript" src="/assets/game.js"></script>
 <script>
