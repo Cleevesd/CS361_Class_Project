@@ -2,20 +2,45 @@
 <@layout.myLayout "Home page">    
 
 
-<h1>The Battleship game</h1>
 
-<table id="opponent" class="battleGrid">
-</table>
+<h1 style="text-align: center; font-size: 40pt;">Battleship</h1>
 
-<table id="player" class="battleGrid">
-</table>
+<div class="container1">
 
-<ul>
-    <li><button id="place_minesweeper">Place Minesweeper</button></li>
-    <li><button id="place_destroyer">Place Destroyer</button></li>
-    <li><button id="place_battleship">Place Battleship</button></li>
-    <li><input type="checkbox" id="is_vertical">Vertical</input></li>
-</ul>
+    <div style="flex: 1;">
+        <div style="text-align: center; font-size: 20pt;">ATTACK LOG</div>
+        <div style="height:200px; font:20px Georgia, Garamond, Serif; overflow:auto;">
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+        </div>
+    </div>
+
+    <div style="flex: 1;">
+        <div>
+            <table align="center" id="opponent" class="battleGrid"></table>
+        </div>
+
+        <div style="text-align: center;">OPPONENT'S TURN</div>
+
+        <div>
+            <table align="center" id="player" class="battleGrid"></table>
+        </div>
+
+    </div>
+
+    <div style="flex: 1;">
+            <li><button id="place_minesweeper">Place Minesweeper</button></li>
+            <li><button id="place_destroyer">Place Destroyer</button></li>
+            <li><button id="place_battleship">Place Battleship</button></li>
+            <li><input type="checkbox" id="is_vertical">Vertical</input></li>
+    </div>
+
+
+</div>
 
 <script type="text/javascript" src="/assets/game.js"></script>
 <script>

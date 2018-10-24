@@ -39,3 +39,9 @@ td:hover {
 .miss {
     background-color: blue;
 }
+
+.container1 {
+    display: flex;
+    padding-left: 50px;
+    padding-right: 50px;
+}
