@@ -1,37 +1,58 @@
 <#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Home page">    
+<@layout.myLayout "Home page">
+
+<h1 style="text-align: center; font-size: 40pt;">Battleship</h1>
+
+<div class="container1">
+
+    <div style="flex: 1;">
+        <div style="text-align: center; font-size: 20pt;">ATTACK LOG</div>
+        <div style="height:200px; font:20px Georgia, Garamond, Serif; overflow:auto;">
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+            As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.
+        </div>
+    </div>
+
+    <div style="flex: 1;">
+        <div>
+            <fieldset style = "width:200px">
+                <p>
+                    <input type = "text" id = "Text2" value = "Enter enemy's name" class= "myText" />
+                    <label> 's Sea </label>
+                </p>
+            </fieldset>
+            <table align="center" id="opponent" class="battleGrid"></table>
+        </div>
+
+        <div style="text-align: center;">OPPONENT'S TURN</div>
+
+        <div>
+            <fieldset style = "width:200px">
+                <p>
+                    <input type = "text" id = "Text1" value = "Enter your name" class= "myText" />
+                    <label> 's Sea </label>
+                </p>
+            </fieldset>
+            <table align="center" id="player" class="battleGrid"></table>
+        </div>
+
+    </div>
+
+    <div style="flex: 1;">
+            <li><button id="place_minesweeper">Place Minesweeper</button></li>
+            <li><button id="place_destroyer">Place Destroyer</button></li>
+            <li><button id="place_battleship">Place Battleship</button></li>
+            <li><input type="checkbox" id="is_vertical">Vertical</input></li>
+    </div>
 
 
-<h1>The Battleship game</h1>
+</div>
 
-<fieldset style = "width:200px">
-    <p>
-        <input type = "text" id = "Text1" value = "Enter your name" class= "myText" />
-        <label> 's Sea </label>
-     </p>
-</fieldset>
-
-<table id="opponent" class="battleGrid">
-</table>
-
-<fieldset style = "width:200px">
-    <p>
-        <input type = "text" id = "Text2" value = "Enter enemy's name" class= "myText" />
-        <label> 's Sea </label>
-    </p>
-</fieldset>
-
-<table id="player" class="battleGrid">
-</table>
-
-<ul>
-    <li><button id="place_minesweeper">Place Minesweeper</button></li>
-    <li><button id="place_destroyer">Place Destroyer</button></li>
-    <li><button id="place_battleship">Place Battleship</button></li>
-    <li><input type="checkbox" id="is_vertical">Vertical</input></li>
-</ul>
-
-<input type="button" value="Restart Game" onClick="window.location.reload()" style="float: right;" >
+<div><input type="button" value="Restart Game" onClick="window.location.reload()" style="float: right;"></div>
 
 <script type="text/javascript" src="/assets/game.js"></script>
 <script>
