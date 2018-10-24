@@ -40,16 +40,13 @@ td:hover {
     background-color: blue;
 }
 
-<<<<<<< HEAD
 .myText {
     width: 150px;
 }
 
-
-=======
 .container1 {
     display: flex;
     padding-left: 50px;
     padding-right: 50px;
 }
->>>>>>> Changed layout and added placeholder for attack log
+
