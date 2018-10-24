@@ -44,4 +44,9 @@ td:hover {
     width: 150px;
 }
 
+.container1 {
+    display: flex;
+    padding-left: 50px;
+    padding-right: 50px;
+}
 
