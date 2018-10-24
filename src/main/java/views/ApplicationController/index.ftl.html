@@ -1,7 +1,8 @@
 <#import "../layout/defaultLayout.ftl.html" as layout> 
 <@layout.myLayout "Home page">
 
-<h1 style="text-align: center; font-size: 40pt;">Battleship</h1>
+<h1 style="margin: 0; text-align: center; font-size: 40pt;">Battleship</h1>
+<hr>
 
 <div class="container1">
 
@@ -42,17 +43,17 @@
 
     </div>
 
-    <div style="flex: 1;">
+    <div style="flex: 1; padding-top: 480px; border: black;">
             <li><button id="place_minesweeper">Place Minesweeper</button></li>
             <li><button id="place_destroyer">Place Destroyer</button></li>
             <li><button id="place_battleship">Place Battleship</button></li>
             <li><input type="checkbox" id="is_vertical">Vertical</input></li>
     </div>
 
-
 </div>
 
 <div><input type="button" value="Restart Game" onClick="window.location.reload()" style="float: right;"></div>
+<br>
 
 <script type="text/javascript" src="/assets/game.js"></script>
 <script>
