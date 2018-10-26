@@ -3,10 +3,10 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
-var btn = document.getElementById('is_vertical')
-var Phase1_text = document.getElementById('Place_indicator')
-var Phase2_text = document.getElementById('Attack_indicator')
-
+var btn = document.getElementById('is_vertical');
+var Phase1_text = document.getElementById('Place_indicator');
+var Phase2_text = document.getElementById('Attack_indicator');
+var attackLog = document.getElementById('attack_log');
 
 
 function updateRotate() {
@@ -98,10 +98,26 @@ function cellClick() {
                 registerCellListener((e) => {});
             }
         });
+
+        // Post ship placements to attack log
+        var placeString = "You placed a ship at: " + col + " , " + row + "!";
+        var placeNode = document.createTextNode(placeString);
+        var br = document.createElement("br");
+        attackLog.appendChild(placeNode);
+        attackLog.appendChild(br);
+        attackLog.scrollTop = attackLog.scrollHeight;
     } else {
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
             game = data;
             redrawGrid();
+
+            // Post attacks to attack log
+            var attackString = "You attacked at: " + col + " , " + row + "!";
+            var attackNode = document.createTextNode(attackString);
+            var br = document.createElement("br");
+            attackLog.appendChild(attackNode);
+            attackLog.appendChild(br);
+            attackLog.scrollTop = attackLog.scrollHeight;
         })
     }
 }
