@@ -106,3 +106,32 @@ td:hover {
     right: 20%;
     position: absolute;
 }
+=======
+.myText {
+    width: 180px;
+    border: 0;
+    font-size: 14pt;
+    font-weight: bold;
+    outline: none;
+}
+
+input {
+    min-width:30px;
+    max-width:99.99%;
+    transition: width 0.25s;
+    text-align:center;
+}
+
+.myText:hover {
+    background-color: antiquewhite;
+}
+
+::placeholder {
+    color: grey;
+}
+
+.container1 {
+    display: flex;
+    padding-left: 50px;
+    padding-right: 50px;
+}
