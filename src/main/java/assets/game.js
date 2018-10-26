@@ -110,7 +110,11 @@ function sendXhr(method, url, data, handler) {
     var req = new XMLHttpRequest();
     req.addEventListener("load", function(event) {
         if (req.status != 200) {
-            alert("Cannot complete the action");
+            if (url === "/attack") {
+                alert("You tried to attack a spot that has already been attacked.")
+            }
+            else
+                alert("You tried to place a ship invalidly.")
             return;
         }
         handler(JSON.parse(req.responseText));
