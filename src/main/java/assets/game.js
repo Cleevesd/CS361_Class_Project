@@ -3,7 +3,10 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
-var btn = document.querySelector('is_vertical');
+var btn = document.getElementById('is_vertical')
+var Phase1_text = document.getElementById('Place_indicator')
+var Phase2_text = document.getElementById('Attack_indicator')
+
 
 
 function updateRotate() {
@@ -15,7 +18,10 @@ function updateRotate() {
     }
 }
 
+
+
 function makeGrid(table, isPlayer) {
+    Phase2_text.style.display = 'none';
     for (i=0; i<10; i++) {
         let row = document.createElement('tr');
         for (j=0; j<10; j++) {
@@ -87,6 +93,8 @@ function cellClick() {
                 isSetup = false;
                 var buttons = document.getElementById('button_panel');
                 buttons.style.display = 'none';
+                Phase1_text.style.display = 'none';
+                Phase2_text.style.display = 'block'
                 registerCellListener((e) => {});
             }
         });
