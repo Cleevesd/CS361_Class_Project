@@ -7,17 +7,18 @@
  }
 
 .battleGrid {
-    border: 1px solid black;
+    border: 1px solid #7F7F7F;
+    background: lightskyblue;
     border-spacing: 0px;
 }
 
 .battleGrid tr {
-    border: 1px solid black;
+    border: 1px solid #7F7F7F;
     height: 30px;
 }
 
 .battleGrid td {
-    border: 1px solid black;
+    border: 1px solid #7F7F7F;
     width: 30px;
 }
 
@@ -34,7 +35,11 @@ td:hover {
 }
 
 .hit {
-    background-color: orange;
+    background-color: black;
+    background-image: url("https://i.imgur.com/GH98OnC.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 75% 85%;
 }
 
 .sink {
@@ -42,7 +47,10 @@ td:hover {
 }
 
 .miss {
-    background-color: blue;
+    background-image: url("https://melbournechapter.net/images/droplets-clipart-sweat-6.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50% 85%;
 }
 
 .hidden {
