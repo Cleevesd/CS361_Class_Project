@@ -10,13 +10,12 @@
 <table id="player" class="battleGrid">
 </table>
 
-<ul>
-    <li><button id="place_minesweeper">Place Minesweeper</button></li>
-    <li><button id="place_destroyer">Place Destroyer</button></li>
-    <li><button id="place_battleship">Place Battleship</button></li>
-    <li><input type="checkbox" id="is_vertical">Vertical</input></li>
-</ul>
-
+<div id="button_panel">
+    <button id="place_minesweeper" class="button">Minesweeper</button>
+    <button id="place_destroyer" class="button">Destroyer</button>
+    <button id="place_battleship" class="button">Battleship</button>
+    <input type="button" id="is_vertical" class="button" value="Vertical">
+</div>
 <script type="text/javascript" src="/assets/game.js"></script>
 <script>
     initGame();

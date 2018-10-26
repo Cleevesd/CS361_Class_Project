@@ -3,6 +3,17 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
+var btn = document.querySelector('input');
+
+
+function updateRotate() {
+    if(btn.value === 'Vertical') {
+        btn.value = 'Horizontal';
+    }
+    else {
+        btn.value = 'Vertical';
+    }
+}
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -74,6 +85,8 @@ function cellClick() {
             placedShips++;
             if (placedShips == 3) {
                 isSetup = false;
+                var buttons = document.getElementById('button_panel');
+                buttons.style.display = 'none';
                 registerCellListener((e) => {});
             }
         });
@@ -103,7 +116,14 @@ function place(size) {
     return function() {
         let row = this.parentNode.rowIndex;
         let col = this.cellIndex;
-        vertical = document.getElementById("is_vertical").checked;
+
+
+        if(document.getElementById("is_vertical").value === 'Vertical') {
+            vertical = true;
+        }
+        else {
+            vertical = false;
+        }
         let table = document.getElementById("player");
         for (let i=0; i<size; i++) {
             let cell;
@@ -123,6 +143,7 @@ function place(size) {
             }
             cell.classList.toggle("placed");
         }
+
     }
 }
 
@@ -141,6 +162,7 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
     });
+    btn.addEventListener('click', updateRotate);
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });

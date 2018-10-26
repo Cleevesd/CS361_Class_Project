@@ -1,6 +1,11 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
 
+@font-face {
+    font-family: digital;
+    src: url('digital-7.ttf');
+ }
+
 .battleGrid {
     border: 1px solid black;
     border-spacing: 0px;
@@ -38,4 +43,66 @@ td:hover {
 
 .miss {
     background-color: blue;
+}
+
+.hidden {
+    display: none;
+
+}
+
+.button {
+    width: 100px;
+    height: 100px - 100px/10;
+    line-height: 100px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 50%;
+    background: #f74d4d;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f74d4d), color-stop(100%, #f86569));
+    background-image: -moz-gradient(linear, left top, left bottom, color-stop(0%,#f74d4d), color-stop(100%,#f86569));
+    box-shadow: 0 10px #e24f4f;
+    &:active {
+        box-shadow: 0 0 #e24f4f;
+        .translate(0px, 15px);
+        .transition( 0.1s all ease-out);
+    }
+
+}
+.translate (@x, @y:0) {
+  -webkit-transform: translate(@x, @y);
+  -moz-transform:    translate(@x, @y);
+  -ms-transform:     translate(@x, @y);
+  -o-transform:      translate(@x, @y);
+}
+
+.transition (@transition) {
+  -webkit-transition: @transition;
+  -moz-transition:    @transition;
+  -ms-transition:     @transition;
+  -o-transition:      @transition;
+   transition:        @transition;
+}
+
+#place_minesweeper {
+    top: 30%;
+    right: 30%;
+    position: absolute;
+}
+
+#place_destroyer {
+    top: 30%;
+    right: 20%;
+    position: absolute;
+}
+
+#place_battleship {
+    top: 50%;
+    right: 30%;
+    position: absolute;
+}
+
+#is_vertical {
+    top: 50%;
+    right: 20%;
+    position: absolute;
 }
