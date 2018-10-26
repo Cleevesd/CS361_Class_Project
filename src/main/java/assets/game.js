@@ -3,7 +3,7 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
-var btn = document.querySelector('input');
+var btn = document.querySelector('is_vertical');
 
 
 function updateRotate() {
