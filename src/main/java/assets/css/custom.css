@@ -41,7 +41,26 @@ td:hover {
 }
 
 .myText {
-    width: 150px;
+    width: 180px;
+    border: 0;
+    font-size: 14pt;
+    font-weight: bold;
+    outline: none;
+}
+
+input {
+    min-width:30px;
+    max-width:99.99%;
+    transition: width 0.25s;
+    text-align:center;
+}
+
+.myText:hover {
+    background-color: antiquewhite;
+}
+
+::placeholder {
+    color: grey;
 }
 
 .container1 {
