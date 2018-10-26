@@ -57,6 +57,7 @@ td:hover {
     text-align: center;
     cursor: pointer;
     border-radius: 50%;
+    position: relative;
     background: #f74d4d;
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f74d4d), color-stop(100%, #f86569));
     background-image: -moz-gradient(linear, left top, left bottom, color-stop(0%,#f74d4d), color-stop(100%,#f86569));
@@ -84,29 +85,26 @@ td:hover {
 }
 
 #place_minesweeper {
-    top: 30%;
-    right: 30%;
-    position: absolute;
+    top: 250px;
+    left: 100px;
 }
 
 #place_destroyer {
-    top: 30%;
-    right: 20%;
-    position: absolute;
+    top: 250px;
+    left: 200px;
+
 }
 
 #place_battleship {
-    top: 50%;
-    right: 30%;
-    position: absolute;
+    top: 420px;
+    right: 105px;
 }
 
 #is_vertical {
-    top: 50%;
-    right: 20%;
-    position: absolute;
+    top: 420px;
+    right: 5px;
 }
-=======
+
 .myText {
     width: 180px;
     border: 0;
@@ -134,4 +132,5 @@ input {
     display: flex;
     padding-left: 50px;
     padding-right: 50px;
+    width: 1175px;
 }
