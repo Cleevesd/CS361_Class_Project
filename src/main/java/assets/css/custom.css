@@ -92,6 +92,12 @@ td:hover {
    transition:        @transition;
 }
 
+#sonar_pulse {
+    left: 1300px;
+    bottom: 450px;
+    display: none;
+}
+
 #place_minesweeper {
     left: 1300px;
     bottom: 450px;

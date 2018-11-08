@@ -1,5 +1,7 @@
 var isSetup = true;
 var placedShips = 0;
+var sonarPulseUnlocked = false;
+var sonarPulseCount = 0;
 var game;
 var shipType;
 var vertical;
@@ -17,8 +19,6 @@ function updateRotate() {
         btn.value = 'Vertical';
     }
 }
-
-
 
 function makeGrid(table, isPlayer) {
     Phase2_text.style.display = 'none';
@@ -41,7 +41,7 @@ function markHits(board, elementId, surrenderText) {
         else if (attack.result === "HIT")
             className = "hit";
         else if (attack.result === "SUNK")
-            className = "hit"
+            className = "hit";
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
@@ -111,6 +111,19 @@ function cellClick() {
             game = data;
             redrawGrid();
 
+            // If the player just sunk the first enemy ship, unlock Sonar Pulse.
+            if(game.opponentsBoard.ships.length < 3 && !sonarPulseUnlocked) {
+                sonarPulseUnlocked = true;
+                sonarPulseCount = 2;
+                alert("Sonar Pulse has been unlocked!\nUse this weapon to reveal enemy ships within a 3x3 grid.");
+
+                // Load button for Sonar Pulse.
+                document.getElementById('sonar_pulse').style.display = 'block';
+                document.getElementById('sonar_pulse').addEventListener("click", function(e) {
+                    registerCellListener(sonarPulse());
+                });
+            }
+
             // Post attacks to attack log
             var attackString = "You attacked at: " + col + " , " + row + "!";
             var attackNode = document.createTextNode(attackString);
@@ -127,10 +140,10 @@ function sendXhr(method, url, data, handler) {
     req.addEventListener("load", function(event) {
         if (req.status != 200) {
             if (url === "/attack") {
-                alert("You tried to attack a spot that has already been attacked.")
+                alert("You tried to attack a spot that has already been attacked.");
             }
             else
-                alert("You tried to place a ship invalidly.")
+                alert("You tried to place a ship invalidly.");
             return;
         }
         handler(JSON.parse(req.responseText));
@@ -140,11 +153,25 @@ function sendXhr(method, url, data, handler) {
     req.send(JSON.stringify(data));
 }
 
+function sonarPulse() {
+    if (sonarPulseCount === 2) {
+        alert("Sonar Pulse is locked and loaded! You have 1 Sonar Pulse left.");
+        sonarPulseCount--;
+    } else if (sonarPulseCount === 1) {
+        alert("Final Sonar Pulse is locked and loaded! You have no more Sonar Pulses left.");
+        document.getElementById('sonar_pulse').style.display = 'none';
+        sonarPulseCount--;
+    } else {
+        alert("Sorry, you're all out of Sonar Pulses! This button shouldn't be here anymore.");
+        document.getElementById('sonar_pulse').style.display = 'none';
+    }
+    return 0;
+}
+
 function place(size) {
     return function() {
         let row = this.parentNode.rowIndex;
         let col = this.cellIndex;
-
 
         if(document.getElementById("is_vertical").value === 'Vertical') {
             vertical = true;
@@ -171,7 +198,6 @@ function place(size) {
             }
             cell.classList.toggle("placed");
         }
-
     }
 }
 

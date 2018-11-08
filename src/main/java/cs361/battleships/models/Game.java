@@ -8,7 +8,6 @@ import java.util.List;
 import static cs361.battleships.models.AtackStatus.*;
 
 public class Game {
-
     @JsonProperty private Board playersBoard = new Board();
     @JsonProperty private Board opponentsBoard = new Board();
 
@@ -39,8 +38,6 @@ public class Game {
         if (playerAttack.getResult() == INVALID) {
             return false;
         }
-
-
 
         Result opponentAttackResult;
         do {
