@@ -9,9 +9,9 @@ public class Board {
 	private List<Ship> ships;
 	private List<Square> shipBoard;
 	private List<Result> previousAttacks;
-    /*
-	DO NOT change the signature of this method. It is used by the grading scripts.
-	 */
+	/*
+    DO NOT change the signature of this method. It is used by the grading scripts.
+     */
 	public Board() {
 		// TODO Implement
 		ships = new ArrayList<Ship>(); // A list of what ships you've used
@@ -62,12 +62,12 @@ public class Board {
 
 			}
 			ship.setOccupiedSquares(shipBoard);
-            ships.add(ship); // Add new ship to list of ships
+			ships.add(ship); // Add new ship to list of ships
 			System.out.println(ship.getOccupiedSquares());
 
 
 
-            return true;
+			return true;
 		}
 		else if(!isVertical && (k + ship_size) < 11) { // Boundary Control
 			for(int i = 0; i < ships.size(); i++) {
@@ -140,7 +140,7 @@ public class Board {
 						}
 						return result;
 					}
-				return result;
+					return result;
 				}
 
 			}
@@ -152,13 +152,56 @@ public class Board {
 		return result;
 	}
 
+	public Square isOccupiedSquare(Square square) {
+		for(int i = 0; i < ships.size(); i++) {
+			for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+				if(ships.get(i).getOccupiedSquares().get(j).getRow() == square.getRow() && ships.get(i).getOccupiedSquares().get(j).getColumn() == square.getColumn()){
+					return ships.get(i).getOccupiedSquares().get(j);
+				}
+			}
+		}
+		return null;
+	}
+
+	// Returns -1 if column not found, otherwise returns index from "columns."
+	private int getIndexFromColumn(char column) {
+		for (int i = 0; i < columns.length; i++) {
+			if (columns[i] == (column)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public Result sonarPulseAttack(int x, char y) {
+		Result result = new Result();
+		result.setResult(AtackStatus.HIT);
+
+		System.out.println("Attempting Sonar Pulse...");
+		int yIndex = getIndexFromColumn(y);
+		for(int i = x-1 ; i <= x+1; i++){
+			for(int j = yIndex ; j <= yIndex+2; j++){
+				Square sonarTo = new Square(i,columns[j-1]);
+				Square shipDetected = isOccupiedSquare(sonarTo);
+				if(shipDetected == null){
+					System.out.println(" ");
+				}
+				else{
+					System.out.println(" ");
+				}
+			}
+		}
+
+		return result;
+	}
+
 	public List<Ship> getShips() {
 		//TODO implement
 		return this.ships;
 	}
 
 	public void setShips(List<Ship> ships) {
-	    this.ships = ships;
+		this.ships = ships;
 		//TODO implement
 	}
 
