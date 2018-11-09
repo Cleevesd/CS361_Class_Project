@@ -7,6 +7,7 @@ public class Board {
 
 	private char [] columns = {'A','B','C','D','E','F','G','H','I','J'};
 	private List<Ship> ships;
+	private List<Ship> shipsplace;
 	private List<Square> shipBoard;
 	private List<Square> capBoard;
 	private List<Result> previousAttacks;
@@ -16,6 +17,7 @@ public class Board {
 	public Board() {
 		// TODO Implement
 		ships = new ArrayList<Ship>(); // A list of what ships you've used
+		ships = new ArrayList<Ship>();
 		shipBoard = new ArrayList<Square>();
 		capBoard = new ArrayList<Square>();
 		previousAttacks = new ArrayList<Result>();
@@ -60,14 +62,15 @@ public class Board {
 
 			for (int i = 0; i < ship_size; i++) { // Placing ship location
 				shipBoard.add(new Square(x+i, y)); // Adds ship location to the ship board
-				if (i == ship_size-1) {
-					capBoard.add(new Square(i, y));
+				if (i == ship_size-2) {
+					capBoard.add(new Square(x+i, y));
 				}
 
 			}
 			ship.setOccupiedSquares(shipBoard);
 			ship.setCaptainQuarters(capBoard);
             ships.add(ship); // Add new ship to list of ships
+			shipsplace = ships;
 
 			for(int i = 0; i < ships.size(); i++) {
 				//for (int j = 0; j < ships.get(i).getCaptainQuarters().size(); j++) {
@@ -103,11 +106,12 @@ public class Board {
 			ship.setOccupiedSquares(shipBoard);
 			ship.setCaptainQuarters(capBoard);
 			ships.add(ship);
-			for(int i = 0; i < ships.size(); i++) {
-						System.out.println("Captain Quarters");
-						System.out.println(ships.get(i).getCaptainQuarters().get(0).getRow());
-						System.out.println(ships.get(i).getCaptainQuarters().get(0).getColumn());
-			}
+			shipsplace = ships;
+			//for(int i = 0; i < ships.size(); i++) {
+						//System.out.println("Captain Quarters");
+						//System.out.println(ships.get(i).getCaptainQuarters().get(0).getRow());
+						//System.out.println(ships.get(i).getCaptainQuarters().get(0).getColumn());
+			//}
 
 			return true;
 		}
@@ -141,20 +145,46 @@ public class Board {
 		for(int i = 0; i < ships.size(); i++) {
 			for(int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
 				if(ships.get(i).getOccupiedSquares().get(j).getRow() == attackedTo.getRow() && ships.get(i).getOccupiedSquares().get(j).getColumn() == attackedTo.getColumn()) {
-					/*if(ships.get(i).getCaptainQuarters().get(j).getRow() == attackedTo.getRow() && ships.get(i).getCaptainQuarters().get(j).getColumn() == attackedTo.getColumn()) {
-						status = AtackStatus.SUNK;
-						result.setResult(status);
-						result.setLocation(attackedTo);
-						previousAttacks.add(result);
-						ships.remove(ships.get(i));
+					// Check if attack is on the Captains Quarters
+					if(ships.get(i).getCaptainQuarters().get(0).getRow() == attackedTo.getRow() && ships.get(i).getCaptainQuarters().get(0).getColumn() == attackedTo.getColumn()) {
+						if(ships.get(i).getKind().equals("MINESWEEPER")) { // if Ship is minesweeper sink
+							status = AtackStatus.SUNK;
+							result.setResult(status);
+							result.setLocation(attackedTo);
+							previousAttacks.add(result);
+							ships.remove(ships.get(i));
+						}
+						else { // If ship is Destroyer or Battleship & health is 0 sink
+							if(ships.get(i).getHealth() == 0) {
+								status = AtackStatus.SUNK;
+								result.setResult(status);
+								result.setLocation(attackedTo);
+								previousAttacks.add(result);
+								ships.remove(ships.get(i));
+							}
+							else { // If ship is Destroyer or Battleship reduce health to 0
+								status = AtackStatus.MISS;
+								result.setResult(status);
+								ships.get(i).setHealth(0);
+							}
+
+						}
+						System.out.println("Hit Caps Quarters");
+						if(ships.size() == 0){ //
+							status = AtackStatus.SURRENDER;
+							result.setResult(status);
+							return result;
+						}
+						return result;
 					}
-					else {*/
+					else {
+						System.out.println(ships.get(i).getHealth());
 						status = AtackStatus.HIT;
 						result.setResult(status);
 						result.setLocation(attackedTo);
 						previousAttacks.add(result);
 						ships.get(i).getOccupiedSquares().remove(ships.get(i).getOccupiedSquares().get(j));
-					//}
+					}
 					// if it is a hit remove the occupied square
 
 					if(ships.get(i).getOccupiedSquares().size() == 0) {
