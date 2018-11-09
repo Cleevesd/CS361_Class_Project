@@ -7,7 +7,6 @@ public class Board {
 
 	private char [] columns = {'A','B','C','D','E','F','G','H','I','J'};
 	private List<Ship> ships;
-	private List<Ship> shipsplace;
 	private List<Square> shipBoard;
 	private List<Square> capBoard;
 	private List<Result> previousAttacks;
@@ -19,12 +18,57 @@ public class Board {
 	public Board() {
 		// TODO Implement
 		ships = new ArrayList<Ship>(); // A list of what ships you've used
-		ships = new ArrayList<Ship>();
 		shipBoard = new ArrayList<Square>();
 		capBoard = new ArrayList<Square>();
 		previousAttacks = new ArrayList<Result>();
 		sonarPulseEmptySquares = new ArrayList<Square>();
 		sonarPulseOccupiedSquares = new ArrayList<Square>();
+	}
+
+
+	public boolean boundaryControl(int ship_size, int x, char y, boolean isVertical) {
+		for (int i = 0; i < ships.size(); i++) {
+			for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+				for (int l = 0; l < ship_size; l++) {
+					if(isVertical) {
+						if (ships.get(i).getOccupiedSquares().get(j).getRow() == x + l && ships.get(i).getOccupiedSquares().get(j).getColumn() == y) {
+							return false;
+						} else if (ships.get(i).getOccupiedSquares().get(j).getRow() == x && ships.get(i).getOccupiedSquares().get(j).getColumn() == y) {
+							return false;
+						}
+					}
+					else {
+						if (ships.get(i).getOccupiedSquares().get(j).getRow() == x && ships.get(i).getOccupiedSquares().get(j).getColumn() == y + l) {
+							return false;
+						} else if (ships.get(i).getOccupiedSquares().get(j).getRow() == x && ships.get(i).getOccupiedSquares().get(j).getColumn() == y) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	public void addShips(int ship_size, int x, char y, Ship ship, boolean isVertical) {
+		for (int i = 0; i < ship_size; i++) { // Placing ship location
+			if(isVertical) {
+				shipBoard.add(new Square(x + i, y)); // Adds ship location to the ship board
+				if (i == ship_size - 2) {
+					capBoard.add(new Square(x + i, y));
+				}
+			}
+			else {
+				shipBoard.add(new Square(x,(char)(y+i)));
+				if (i == ship_size-2) {
+					capBoard.add(new Square(x,(char)(y+i)));
+				}
+			}
+
+		}
+		ship.setOccupiedSquares(shipBoard);
+		ship.setCaptainQuarters(capBoard);
+		ships.add(ship); // Add new ship to list of ships
 	}
 
 	/*
@@ -37,86 +81,28 @@ public class Board {
 				return false;
 			}
 		}
-
 		int k = 0;
 		for(int i = 0; i < 10; i++) { // Changing char to int for column
 			if(columns[i] == y)
 				k = i;
 		}
-
-
 		int ship_size = ship.getShip_size(); // Get ship size for loops
+		boolean boundary;
 
 		if(isVertical && (x + ship_size) <= 11) {  //boundary control
-
-
-			for(int i = 0; i < ships.size(); i++) {
-				for(int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-					for(int l = 0; l < ship_size; l++) {
-						if(ships.get(i).getOccupiedSquares().get(j).getRow() == x+l && ships.get(i).getOccupiedSquares().get(j).getColumn() == y) {
-							return false;
-						}
-						else if(ships.get(i).getOccupiedSquares().get(j).getRow() == x && ships.get(i).getOccupiedSquares().get(j).getColumn() == y) {
-							return false;
-						}
-					}
-
-				}
+			boundary = boundaryControl(ship_size, x, y, true);
+			if(!boundary) {
+				return false;
 			}
-
-			for (int i = 0; i < ship_size; i++) { // Placing ship location
-				shipBoard.add(new Square(x+i, y)); // Adds ship location to the ship board
-				if (i == ship_size-2) {
-					capBoard.add(new Square(x+i, y));
-				}
-
-			}
-			ship.setOccupiedSquares(shipBoard);
-			ship.setCaptainQuarters(capBoard);
-      ships.add(ship); // Add new ship to list of ships
-			shipsplace = ships;
-
-			for(int i = 0; i < ships.size(); i++) {
-				//for (int j = 0; j < ships.get(i).getCaptainQuarters().size(); j++) {
-					System.out.println("Captain Quarters");
-					System.out.println(ships.get(i).getCaptainQuarters().get(0).getRow());
-					System.out.println(ships.get(i).getCaptainQuarters().get(0).getColumn());
-				//}
-			}
-            return true;
-
+			addShips(ship_size, x, y, ship, true);
+			return true;
 		}
 		else if(!isVertical && (k + ship_size) < 11) { // Boundary Control
-			for(int i = 0; i < ships.size(); i++) {
-				for(int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-					for(int l = 0; l < ship_size; l++) {
-						if(ships.get(i).getOccupiedSquares().get(j).getRow() == x && ships.get(i).getOccupiedSquares().get(j).getColumn() == y+l) {
-							return false;
-						}
-						else if(ships.get(i).getOccupiedSquares().get(j).getRow() == x && ships.get(i).getOccupiedSquares().get(j).getColumn() == y) {
-							return false;
-						}
-					}
-
-				}
+			boundary = boundaryControl(ship_size, x, y, false);
+			if(!boundary) {
+				return false;
 			}
-			for (int i = 0; i < ship_size; i++) {
-				shipBoard.add(new Square(x,(char)(y+i)));
-				if (i == ship_size-2) {
-					capBoard.add(new Square(x,(char)(y+i)));
-				}
-			}
-
-			ship.setOccupiedSquares(shipBoard);
-			ship.setCaptainQuarters(capBoard);
-			ships.add(ship);
-			shipsplace = ships;
-			//for(int i = 0; i < ships.size(); i++) {
-						//System.out.println("Captain Quarters");
-						//System.out.println(ships.get(i).getCaptainQuarters().get(0).getRow());
-						//System.out.println(ships.get(i).getCaptainQuarters().get(0).getColumn());
-			//}
-
+			addShips(ship_size, x, y, ship, false);
 			return true;
 		}
 		return false;
