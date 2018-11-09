@@ -179,7 +179,7 @@ function sonarPulse() {
         alert("Sorry, you're all out of Sonar Pulses! This button shouldn't be here anymore.");
         document.getElementById('sonar_pulse').style.display = 'none';
     }
-    return 0;
+    //return 0;
 }
 
 function place(size) {

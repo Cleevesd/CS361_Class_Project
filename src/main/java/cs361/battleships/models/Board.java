@@ -152,9 +152,47 @@ public class Board {
 		return result;
 	}
 
+	public Square isOccupiedSquare(Square square) {
+		for(int i = 0; i < ships.size(); i++) {
+			for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+				if(ships.get(i).getOccupiedSquares().get(j).getRow() == square.getRow() && ships.get(i).getOccupiedSquares().get(j).getColumn() == square.getColumn()){
+					return ships.get(i).getOccupiedSquares().get(j);
+				}
+			}
+		}
+		return null;
+	}
+
+	// Returns -1 if column not found, otherwise returns index from "columns."
+	private int getIndexFromColumn(char column) {
+		for (int i = 0; i < columns.length; i++) {
+			if (columns[i] == (column)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	public Result sonarPulseAttack(int x, char y) {
 		Result result = new Result();
 		result.setResult(AtackStatus.HIT);
+
+		System.out.println("Attempting Sonar Pulse...");
+		int yIndex = getIndexFromColumn(y);
+		for(int i = x-1 ; i <= x+1; i++){
+			for(int j = yIndex ; j <= yIndex+2; j++){
+				Square sonarTo = new Square(i,columns[j-1]);
+				Square shipDetected = isOccupiedSquare(sonarTo);
+				System.out.println("no operators");
+				if(shipDetected == null){
+					System.out.println(" ");
+				}
+				else{
+					System.out.println(" ");
+				}
+			}
+		}
+
 		return result;
 	}
 
