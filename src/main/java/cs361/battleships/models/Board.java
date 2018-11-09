@@ -152,12 +152,6 @@ public class Board {
 		return result;
 	}
 
-	public Result sonarPulseAttack(int x, char y) {
-		Result result = new Result();
-		result.setResult(AtackStatus.HIT);
-		return result;
-	}
-
 	public List<Ship> getShips() {
 		//TODO implement
 		return this.ships;
