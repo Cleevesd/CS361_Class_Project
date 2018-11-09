@@ -8,7 +8,6 @@ import java.util.List;
 import static cs361.battleships.models.AtackStatus.*;
 
 public class Game {
-
     @JsonProperty private Board playersBoard = new Board();
     @JsonProperty private Board opponentsBoard = new Board();
 
@@ -40,7 +39,18 @@ public class Game {
             return false;
         }
 
+        Result opponentAttackResult;
+        do {
+            // AI does random attacks, so it might attack the same spot twice
+            // let it try until it gets it right
+            opponentAttackResult = playersBoard.attack(randRow(), randCol());
+        } while(opponentAttackResult.getResult() == INVALID);
 
+        return true;
+    }
+
+    public boolean sonarPulseAttack(int x, char y) {
+        Result playerSonarPulse = opponentsBoard.sonarPulseAttack(x, y);
 
         Result opponentAttackResult;
         do {
