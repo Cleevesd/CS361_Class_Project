@@ -8,6 +8,7 @@ public class Board {
 	private char [] columns = {'A','B','C','D','E','F','G','H','I','J'};
 	private List<Ship> ships;
 	private List<Square> shipBoard;
+	private List<Square> capBoard;
 	private List<Result> previousAttacks;
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -16,6 +17,7 @@ public class Board {
 		// TODO Implement
 		ships = new ArrayList<Ship>(); // A list of what ships you've used
 		shipBoard = new ArrayList<Square>();
+		capBoard = new ArrayList<Square>();
 		previousAttacks = new ArrayList<Result>();
 	}
 
@@ -25,7 +27,6 @@ public class Board {
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 		// TODO Implement
 		for(int i = 0; i < ships.size(); i++) {
-			System.out.println(ships.get(i).getKind());
 			if(ships.get(i).getKind().equals(ship.getKind())) { // Checks ships ArrayList and compares to current ship, if any are equal return false
 				return false;
 			}
@@ -59,15 +60,24 @@ public class Board {
 
 			for (int i = 0; i < ship_size; i++) { // Placing ship location
 				shipBoard.add(new Square(x+i, y)); // Adds ship location to the ship board
+				if (i == ship_size-1) {
+					capBoard.add(new Square(i, y));
+				}
 
 			}
 			ship.setOccupiedSquares(shipBoard);
+			ship.setCaptainQuarters(capBoard);
             ships.add(ship); // Add new ship to list of ships
-			System.out.println(ship.getOccupiedSquares());
 
-
-
+			for(int i = 0; i < ships.size(); i++) {
+				//for (int j = 0; j < ships.get(i).getCaptainQuarters().size(); j++) {
+					System.out.println("Captain Quarters");
+					System.out.println(ships.get(i).getCaptainQuarters().get(0).getRow());
+					System.out.println(ships.get(i).getCaptainQuarters().get(0).getColumn());
+				//}
+			}
             return true;
+
 		}
 		else if(!isVertical && (k + ship_size) < 11) { // Boundary Control
 			for(int i = 0; i < ships.size(); i++) {
@@ -85,10 +95,19 @@ public class Board {
 			}
 			for (int i = 0; i < ship_size; i++) {
 				shipBoard.add(new Square(x,(char)(y+i)));
+				if (i == ship_size-2) {
+					capBoard.add(new Square(x,(char)(y+i)));
+				}
 			}
 
 			ship.setOccupiedSquares(shipBoard);
+			ship.setCaptainQuarters(capBoard);
 			ships.add(ship);
+			for(int i = 0; i < ships.size(); i++) {
+						System.out.println("Captain Quarters");
+						System.out.println(ships.get(i).getCaptainQuarters().get(0).getRow());
+						System.out.println(ships.get(i).getCaptainQuarters().get(0).getColumn());
+			}
 
 			return true;
 		}
@@ -122,12 +141,22 @@ public class Board {
 		for(int i = 0; i < ships.size(); i++) {
 			for(int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
 				if(ships.get(i).getOccupiedSquares().get(j).getRow() == attackedTo.getRow() && ships.get(i).getOccupiedSquares().get(j).getColumn() == attackedTo.getColumn()) {
-					status = AtackStatus.HIT;
-					result.setResult(status);
-					result.setLocation(attackedTo);
-					previousAttacks.add(result);
+					/*if(ships.get(i).getCaptainQuarters().get(j).getRow() == attackedTo.getRow() && ships.get(i).getCaptainQuarters().get(j).getColumn() == attackedTo.getColumn()) {
+						status = AtackStatus.SUNK;
+						result.setResult(status);
+						result.setLocation(attackedTo);
+						previousAttacks.add(result);
+						ships.remove(ships.get(i));
+					}
+					else {*/
+						status = AtackStatus.HIT;
+						result.setResult(status);
+						result.setLocation(attackedTo);
+						previousAttacks.add(result);
+						ships.get(i).getOccupiedSquares().remove(ships.get(i).getOccupiedSquares().get(j));
+					//}
 					// if it is a hit remove the occupied square
-					ships.get(i).getOccupiedSquares().remove(ships.get(i).getOccupiedSquares().get(j));
+
 					if(ships.get(i).getOccupiedSquares().size() == 0) {
 						status = AtackStatus.SUNK;
 						result.setResult(status);

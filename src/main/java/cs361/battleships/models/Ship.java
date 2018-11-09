@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Ship {
 
 	@JsonProperty private List<Square> occupiedSquares;
+	@JsonProperty private List<Square> captainQuarters;
 	private String kind;
 	private int ship_size;
 	
@@ -28,6 +29,7 @@ public class Ship {
 			this.ship_size = 4;
 		}
 		occupiedSquares = new ArrayList<>();
+		captainQuarters = new ArrayList<>();
 	}
 
 	public void setShip_size(int ship_size) {
@@ -39,12 +41,21 @@ public class Ship {
 	}
 
 	public void setOccupiedSquares(List<Square> occupiedSquares) {
+
 		this.occupiedSquares = occupiedSquares;
 	}
 
 	public List<Square> getOccupiedSquares() {
 		//TODO implement
 		return occupiedSquares;
+	}
+
+	public void setCaptainQuarters(List<Square> captainQuarters) {
+		this.captainQuarters = captainQuarters;
+	}
+
+	public List<Square> getCaptainQuarters() {
+		return captainQuarters;
 	}
 
 	public void setKind(String kind) {
