@@ -84,6 +84,61 @@ public class BoardTest {
         result = board.attack(4,'H');
         assertTrue(result.getResult() == AtackStatus.SURRENDER);
     }
+
+    @Test
+    public void testSonarAttackIsValid(){
+        Board board = new Board();
+        Result result = new Result();
+        board.placeShip(new Ship("MINESWEEPER"),4,'D',true);
+        result = board.sonarPulseAttack(4,'D');
+        assertTrue(result.getResult() == AtackStatus.SONARATTACK);
+    }
+
+    @Test
+    public void testSonarAttackOccupiedSquares() {
+        Board board = new Board();
+        Result result = new Result();
+        board.placeShip(new Ship("BATTLESHIP"),2,'D',true);
+        result = board.sonarPulseAttack(4,'D');
+
+        assertTrue(board.sonarPulseOccupiedSquares.get(0).getRow() == 3 );
+        assertTrue(board.sonarPulseOccupiedSquares.get(0).getColumn() == 'D');
+        assertTrue(board.sonarPulseOccupiedSquares.get(1).getRow() == 4 );
+        assertTrue(board.sonarPulseOccupiedSquares.get(1).getColumn() == 'D' );
+        assertTrue(board.sonarPulseOccupiedSquares.get(2).getRow() == 5 );
+        assertTrue(board.sonarPulseOccupiedSquares.get(2).getColumn() == 'D' );
+        assertTrue(board.sonarPulseOccupiedSquares.get(3).getRow() == 2 );
+        assertTrue(board.sonarPulseOccupiedSquares.get(3).getColumn() == 'D');
+    }
+
+    @Test
+    public void testSonarAttackEmptySquares(){
+        Board board = new Board();
+        Result result = new Result();
+        board.placeShip(new Ship("BATTLESHIP"),2,'D',true);
+        result = board.sonarPulseAttack(4,'D');
+
+        assertTrue(board.sonarPulseEmptySquares.get(0).getRow() == 3);
+        assertTrue(board.sonarPulseEmptySquares.get(0).getColumn() == 'C');
+        assertTrue(board.sonarPulseEmptySquares.get(1).getRow() == 3);
+        assertTrue(board.sonarPulseEmptySquares.get(1).getColumn() == 'E');
+        assertTrue(board.sonarPulseEmptySquares.get(2).getRow() == 4);
+        assertTrue(board.sonarPulseEmptySquares.get(2).getColumn() == 'C');
+        assertTrue(board.sonarPulseEmptySquares.get(3).getRow() == 4);
+        assertTrue(board.sonarPulseEmptySquares.get(3).getColumn() == 'E');
+        assertTrue(board.sonarPulseEmptySquares.get(4).getRow() == 5);
+        assertTrue(board.sonarPulseEmptySquares.get(4).getColumn() == 'C');
+        assertTrue(board.sonarPulseEmptySquares.get(5).getRow() == 5);
+        assertTrue(board.sonarPulseEmptySquares.get(5).getColumn() == 'E');
+        assertTrue(board.sonarPulseEmptySquares.get(6).getRow() == 4);
+        assertTrue(board.sonarPulseEmptySquares.get(6).getColumn() == 'B');
+        assertTrue(board.sonarPulseEmptySquares.get(7).getRow() == 6);
+        assertTrue(board.sonarPulseEmptySquares.get(7).getColumn() == 'D');
+        assertTrue(board.sonarPulseEmptySquares.get(8).getRow() == 4);
+        assertTrue(board.sonarPulseEmptySquares.get(8).getColumn() == 'F');
+
+
+    }
 }
 
 
