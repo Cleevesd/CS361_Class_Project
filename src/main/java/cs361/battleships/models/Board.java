@@ -9,6 +9,8 @@ public class Board {
 	private List<Ship> ships;
 	private List<Square> shipBoard;
 	private List<Result> previousAttacks;
+	public List<Square> sonarPulseEmptySquares;
+	public List<Square> sonarPulseOccupiedSquares;
 	/*
     DO NOT change the signature of this method. It is used by the grading scripts.
      */
@@ -17,6 +19,8 @@ public class Board {
 		ships = new ArrayList<Ship>(); // A list of what ships you've used
 		shipBoard = new ArrayList<Square>();
 		previousAttacks = new ArrayList<Result>();
+		sonarPulseEmptySquares = new ArrayList<Square>();
+		sonarPulseOccupiedSquares = new ArrayList<Square>();
 	}
 
 	/*
@@ -152,9 +156,18 @@ public class Board {
 		return result;
 	}
 
+	// Returns null if the given square is empty or has already been hit, otherwise it returns the square.
 	public Square isOccupiedSquare(Square square) {
 		for(int i = 0; i < ships.size(); i++) {
+//			System.out.println(" ");
+//			System.out.println("\tCurrent Ship Model: " + ships.get(i).getKind());
 			for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+//				System.out.println("\ti: '"+i+"'");
+//				System.out.println("\tj: '"+j+"'");
+//				System.out.println("\t\tships.get(i).getOccupiedSquares().get(j).getRow(): '"+ships.get(i).getOccupiedSquares().get(j).getRow()+"'");
+//				System.out.println("\t\tships.get(i).getOccupiedSquares().get(j).getColumn(): '"+ships.get(i).getOccupiedSquares().get(j).getColumn()+"'");
+//				System.out.println("\t\tsquare.getRow(): '"+square.getRow()+"'");
+//				System.out.println("\t\tsquare.getColumn(): '"+square.getColumn()+"'");
 				if(ships.get(i).getOccupiedSquares().get(j).getRow() == square.getRow() && ships.get(i).getOccupiedSquares().get(j).getColumn() == square.getColumn()){
 					return ships.get(i).getOccupiedSquares().get(j);
 				}
@@ -173,21 +186,73 @@ public class Board {
 		return -1;
 	}
 
+	// Takes x or y as a value for the axis, and the index to be checked.
+	private boolean isValidIndex(char axis, int index) {
+		if (axis == 'x') {
+			if (index >= 1 && index <=10) {
+				return true;
+			}
+		} else if (axis == 'y') {
+			if (index >= 0 && index <=9) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public Result sonarPulseAttack(int x, char y) {
 		Result result = new Result();
 		result.setResult(AtackStatus.HIT);
 
-		System.out.println("Attempting Sonar Pulse...");
 		int yIndex = getIndexFromColumn(y);
-		for(int i = x-1 ; i <= x+1; i++){
-			for(int j = yIndex ; j <= yIndex+2; j++){
-				Square sonarTo = new Square(i,columns[j-1]);
-				Square shipDetected = isOccupiedSquare(sonarTo);
-				if(shipDetected == null){
-					System.out.println(" ");
+		System.out.println("Attempting Sonar Pulse about ["+x+","+columns[yIndex]+"]...");
+		for(int i = x-1; i <= x+1; i++){
+			for(int j = yIndex-1; j <= yIndex+1; j++){
+				if ( isValidIndex('x', i) && isValidIndex('y', j) ) {
+					Square sonarTo = new Square(i, columns[j]);
+					Square shipDetected = isOccupiedSquare(sonarTo);
+					if(shipDetected == null) {
+						// Add square to sonarPulseEmptySquares for game.js to use.
+						System.out.println("["+i+","+columns[j]+"] is empty or has already been attacked.");
+						sonarPulseEmptySquares.add( new Square(i, columns[j]) );
+					} else {
+						// Add square to sonarPulseOccupiedSquares for game.js to use.
+						System.out.println("["+i+","+columns[j]+"] has a ship!");
+						sonarPulseOccupiedSquares.add( new Square(i, columns[j]) );
+					}
 				}
-				else{
-					System.out.println(" ");
+			}
+		}
+		for (int i = -2; i <= 2; i=i+4) {
+			if ( isValidIndex('x', x+i) ) {
+				System.out.println("\txSquare: [" + (x + i) + "," + columns[yIndex] + "]");
+				Square xSquare = new Square(x + i, columns[yIndex]);
+
+				Square xDetected = isOccupiedSquare(xSquare);
+				if (xDetected == null) {
+					// Add square to sonarPulseEmptySquares for game.js to use.
+					System.out.println("[" + (x + i) + "," + columns[yIndex] + "] is empty or has already been attacked.");
+					sonarPulseEmptySquares.add(new Square(x + i, columns[yIndex]));
+				} else {
+					// Add square to sonarPulseOccupiedSquares for game.js to use.
+					System.out.println("[" + (x + i) + "," + columns[yIndex] + "] has a ship!");
+					sonarPulseOccupiedSquares.add(new Square(x + i, columns[yIndex]));
+				}
+			}
+			if ( isValidIndex('y', yIndex+i) ) {
+				System.out.println("\tySquare: ["+(x)+","+columns[yIndex+i]+"]");
+				Square ySquare = new Square(x, columns[yIndex+i]);
+
+				Square yDetected = isOccupiedSquare(ySquare);
+				if(yDetected == null) {
+					// Add square to sonarPulseEmptySquares for game.js to use.
+					System.out.println("["+x+","+columns[yIndex+i]+"] is empty or has already been attacked.");
+					sonarPulseEmptySquares.add( new Square(x, columns[yIndex+i]) );
+				} else {
+					// Add square to sonarPulseOccupiedSquares for game.js to use.
+					System.out.println("["+x+","+columns[yIndex+i]+"] has a ship!");
+					sonarPulseOccupiedSquares.add( new Square(x, columns[yIndex+i]) );
 				}
 			}
 		}
