@@ -2,10 +2,8 @@ package cs361.battleships.models;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 
 public class BoardTest {
 
@@ -53,26 +51,28 @@ public class BoardTest {
         Board board = new Board();
         Result result = new Result();
         board.placeShip(new Ship("MINESWEEPER"),2,'A',false);
-        result = board.attack(2,'C');
-        assertTrue(result.getResult() == AtackStatus.MISS);
-        result = board.attack(2,'A');
-        assertTrue(result.getResult() == AtackStatus.HIT);
+        board.placeShip(new Ship("DESTROYER"),5,'E',false);
+
+        result = board.attack(2,'I');
+        assertSame(AtackStatus.MISS, result.getResult());
+
+        result = board.attack(2,'B');
+        assertSame(AtackStatus.HIT, result.getResult());
     }
 
     @Test
     public void testSunkAttack(){
         Board board = new Board();
         Result result = new Result();
+
         board.placeShip(new Ship("MINESWEEPER"),4,'B',true);
-        board.placeShip(new Ship("MINESWEEPER"),6,'D',true);
-      //  board.placeShip(new Ship("BATTLESHIP"),2,'D',true);
-        result = board.attack(4,'B');
-        assertTrue(result.getResult() == AtackStatus.HIT);
+        board.placeShip(new Ship("DESTROYER"),6,'D',true);
+
         result = board.attack(5,'B');
+        assertSame(AtackStatus.HIT, result.getResult());
 
-        //this test is not working although our function outputs SUNK.
-        assertTrue(result.getResult() == AtackStatus.SUNK);
-
+        result = board.attack(4,'B');
+        assertSame(AtackStatus.SUNK, result.getResult());
     }
 
     @Test
@@ -81,8 +81,7 @@ public class BoardTest {
         Result result = new Result();
         board.placeShip(new Ship("MINESWEEPER"),3,'H',true);
         result = board.attack(3,'H');
-        result = board.attack(4,'H');
-        assertTrue(result.getResult() == AtackStatus.SURRENDER);
+        assertSame(result.getResult(), AtackStatus.SURRENDER);
     }
 }
 
