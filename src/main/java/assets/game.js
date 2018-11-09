@@ -2,6 +2,7 @@ var isSetup = true;
 var placedShips = 0;
 var sonarPulseUnlocked = false;
 var sonarPulseCount = 0;
+var sonarPulseActive = false;
 var game;
 var shipType;
 var vertical;
@@ -106,7 +107,16 @@ function cellClick() {
         attackLog.appendChild(placeNode);
         attackLog.appendChild(br);
         attackLog.scrollTop = attackLog.scrollHeight;
-    } else {
+    }
+    else if (sonarPulseActive) {
+        sendXhr("POST", "/sonarPulseAttack", {game: game, x: row, y: col}, function(data) {
+            game = data;
+            redrawGrid();
+            alert("You just tried to use your sonar pulse!");
+        })
+        sonarPulseActive = false;
+    }
+    else {
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
             game = data;
             redrawGrid();
@@ -142,8 +152,9 @@ function sendXhr(method, url, data, handler) {
             if (url === "/attack") {
                 alert("You tried to attack a spot that has already been attacked.");
             }
-            else
+            else if (url === "/place") {
                 alert("You tried to place a ship invalidly.");
+            }
             return;
         }
         handler(JSON.parse(req.responseText));
@@ -156,10 +167,13 @@ function sendXhr(method, url, data, handler) {
 function sonarPulse() {
     if (sonarPulseCount === 2) {
         alert("Sonar Pulse is locked and loaded! You have 1 Sonar Pulse left.");
+        sonarPulseActive = true;
         sonarPulseCount--;
+
     } else if (sonarPulseCount === 1) {
         alert("Final Sonar Pulse is locked and loaded! You have no more Sonar Pulses left.");
         document.getElementById('sonar_pulse').style.display = 'none';
+        sonarPulseActive = true;
         sonarPulseCount--;
     } else {
         alert("Sorry, you're all out of Sonar Pulses! This button shouldn't be here anymore.");

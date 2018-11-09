@@ -49,6 +49,19 @@ public class Game {
         return true;
     }
 
+    public boolean sonarPulseAttack(int x, char y) {
+        Result playerSonarPulse = opponentsBoard.sonarPulseAttack(x, y);
+
+        Result opponentAttackResult;
+        do {
+            // AI does random attacks, so it might attack the same spot twice
+            // let it try until it gets it right
+            opponentAttackResult = playersBoard.attack(randRow(), randCol());
+        } while(opponentAttackResult.getResult() == INVALID);
+
+        return true;
+    }
+
     private char randCol() {
         char [] chars = {'A','B','C','D','E','F','G','H','I','J'};
         int rand;

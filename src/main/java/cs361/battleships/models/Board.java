@@ -150,7 +150,12 @@ public class Board {
 		result.setLocation(attackedTo);
 		previousAttacks.add(result);
 		return result;
+	}
 
+	public Result sonarPulseAttack(int x, char y) {
+		Result result = new Result();
+		result.setResult(AtackStatus.HIT);
+		return result;
 	}
 
 	public List<Ship> getShips() {

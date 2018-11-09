@@ -39,4 +39,14 @@ public class ApplicationController {
             return Results.badRequest();
         }
     }
+
+    public Result sonarPulseAttack(Context context, AttackGameAction g) {
+        Game game = g.getGame();
+        boolean result = game.sonarPulseAttack(g.getActionRow(), g.getActionColumn());
+        if (result) {
+            return Results.json().render(game);
+        } else {
+            return Results.badRequest();
+        }
+    }
 }
