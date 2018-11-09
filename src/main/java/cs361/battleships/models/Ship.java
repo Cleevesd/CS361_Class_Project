@@ -8,8 +8,10 @@ import java.util.ArrayList;
 public class Ship {
 
 	@JsonProperty private List<Square> occupiedSquares;
+	@JsonProperty private List<Square> captainQuarters;
 	private String kind;
 	private int ship_size;
+	private int health;
 	
 	public Ship() {
         	occupiedSquares = null;
@@ -22,12 +24,16 @@ public class Ship {
 		this.kind = kind;
 		if (kind.equals("MINESWEEPER")) {
 			this.ship_size = 2;
+			this.health = 0;
 		} else if (kind.equals("DESTROYER")) {
 			this.ship_size = 3;
+			this.health = 1;
 		} else if (kind.equals("BATTLESHIP")) {
 			this.ship_size = 4;
+			this.health = 1;
 		}
 		occupiedSquares = new ArrayList<>();
+		captainQuarters = new ArrayList<>();
 	}
 
 	public void setShip_size(int ship_size) {
@@ -38,13 +44,31 @@ public class Ship {
 		return ship_size;
 	}
 
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public int getHealth() {
+
+		return health;
+	}
+
 	public void setOccupiedSquares(List<Square> occupiedSquares) {
+
 		this.occupiedSquares = occupiedSquares;
 	}
 
 	public List<Square> getOccupiedSquares() {
 		//TODO implement
 		return occupiedSquares;
+	}
+
+	public void setCaptainQuarters(List<Square> captainQuarters) {
+		this.captainQuarters = captainQuarters;
+	}
+
+	public List<Square> getCaptainQuarters() {
+		return captainQuarters;
 	}
 
 	public void setKind(String kind) {
