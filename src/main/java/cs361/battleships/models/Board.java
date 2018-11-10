@@ -262,7 +262,7 @@ public class Board {
 
 	public Result sonarPulseAttack(int x, char y) {
 		Result result = new Result();
-		result.setResult(AtackStatus.HIT);
+
 
 		int yIndex = getIndexFromColumn(y);
 		System.out.println("Attempting Sonar Pulse about ["+x+","+columns[yIndex]+"]...");
@@ -316,6 +316,7 @@ public class Board {
 			}
 		}
 
+		result.setResult(AtackStatus.SONARATTACK);
 		return result;
 	}
 
