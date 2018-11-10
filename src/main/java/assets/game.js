@@ -62,7 +62,6 @@ function redrawGrid() {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
 
-
     // Display the area affected by Sonar Pulse. Currently disables transition from setup.
     // if (game.opponentsBoard.sonarPulseEmptySquares.length() != null) {
     // }
