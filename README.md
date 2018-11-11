@@ -267,16 +267,16 @@ Your user stories will be evaluated on whether they follow [INVEST](https://xp12
 
 ## Authors
 
-* **[AdamTogether](https://github.com/AdamTogether)** - *Creator of this README document* - [README.md](https://github.com/cs361fall2018/project-team-22/blob/master/README.md)
-* **Billie Thompson** - *Original creator of "README-Template.md"* - [README Template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* **Caius Brindescu** - *Course Instructor (CS 361)* - [Original Instructions for Sprint 1](https://cs361fall2018.github.io/assignments/sprint1/), [Sprint 2](https://cs361fall2018.github.io/assignments/sprint2/), [Sprint 3](https://cs361fall2018.github.io/assignments/sprint3/), and [Sprint 4](https://cs361fall2018.github.io/assignments/sprint4/)
+* **[Adam Stewart](https://github.com/AdamTogether)** - *Creator of this README document* - [README.md](https://github.com/cs361fall2018/project-team-22/blob/master/README.md)
+* **[Billie Thompson](https://github.com/PurpleBooth)** - *Original creator of "README-Template.md"* - [README Template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+* **[Caius Brindescu](https://github.com/caiusb)** - *Course Instructor (CS 361)* - Original Instructions for [Sprint 1](https://cs361fall2018.github.io/assignments/sprint1/), [Sprint 2](https://cs361fall2018.github.io/assignments/sprint2/), [Sprint 3](https://cs361fall2018.github.io/assignments/sprint3/), and [Sprint 4](https://cs361fall2018.github.io/assignments/sprint4/)
 
 ## Contributors
 
-* **Cleevesd** - *Team 22* - [GitHub](https://github.com/Cleevesd)
-* **mertdedekoy** - *Team 22* - [GitHub](https://github.com/mertdedekoy)
-* **AHazy** - *Team 22* - [GitHub](https://github.com/AHazy)
-* **AdamTogether** - *Team 22* - [GitHub](https://github.com/AdamTogether)
+* **[Cleevesd](https://github.com/Cleevesd)** - *Team 22*
+* **[mertdedekoy](https://github.com/mertdedekoy)** - *Team 22*
+* **[AHazy](https://github.com/AHazy)** - *Team 22*
+* **[AdamTogether](https://github.com/AdamTogether)** - *Team 22*
 
 ## Acknowledgments
 
