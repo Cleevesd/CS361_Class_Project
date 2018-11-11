@@ -1,7 +1,9 @@
 # Battleship
 ### **Active: Sprint 4**
 
-This repository contains the code written by team 22 for Sprints 1, 2, 3, and 4 of the Battleship group project as assigned in CS 361 (Software Engineering I) at Oregon State University. The following instructions were given for this assignment:
+This repository contains the code written by team 22 for Sprints 1, 2, 3, and 4 of the Battleship group project as assigned in CS 361 (Software Engineering I) at Oregon State University.
+
+The following instructions were given for this assignment:
 
 &nbsp;
 
