@@ -280,5 +280,5 @@ Your user stories will be evaluated on whether they follow [INVEST](https://xp12
 
 ## Acknowledgments
 
-* Teamwork makes the dream work.
+* Teamwork makes the dream work!
 
