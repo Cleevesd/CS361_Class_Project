@@ -121,8 +121,13 @@ td:hover {
     bottom: 250px;
 }
 
+#place_submarine {
+    left: 1095px;
+    bottom: 350px;
+}
+
 #is_vertical {
-    left: 1195px;
+    left: 1095px;
     bottom: 250px;
 }
 

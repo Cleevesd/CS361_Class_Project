@@ -31,6 +31,9 @@ public class Ship {
 		} else if (kind.equals("BATTLESHIP")) {
 			this.ship_size = 4;
 			this.health = 1;
+		} else if (kind.equals("SUBMARINE")) {
+			this.ship_size = 5;
+			this.health = 1;
 		}
 		occupiedSquares = new ArrayList<>();
 		captainQuarters = new ArrayList<>();

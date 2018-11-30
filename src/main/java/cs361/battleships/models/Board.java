@@ -53,13 +53,29 @@ public class Board {
 	public void addShips(int ship_size, int x, char y, Ship ship, boolean isVertical) {
 		for (int i = 0; i < ship_size; i++) { // Placing ship location
 			if(isVertical) {
-				shipBoard.add(new Square(x + i, y)); // Adds ship location to the ship board
+				if (i < 4){		// All ship squares up until the notch in the sub
+					shipBoard.add(new Square(x + i, y)); // Adds ship location to the ship board
+				}
+				else {
+					shipBoard.add(new Square(x +1, (char)(y-1))); // Sets the notch in the sub
+				}
 				if (i == ship_size - 2) {
-					capBoard.add(new Square(x + i, y));
+					if (ship_size < 5) {
+						capBoard.add(new Square(x + i, y));
+					}
+					else {
+						capBoard.add(new Square(x, y));
+					}
 				}
 			}
 			else {
-				shipBoard.add(new Square(x,(char)(y+i)));
+				if (i < 4) {	// All ship squares leading up to the sub
+					shipBoard.add(new Square(x,(char)(y+i)));
+				}
+				else{
+					shipBoard.add(new Square(x-1,(char)(y+2)));	// Sets the out-of-ordinary ship square
+				}
+
 				if (i == ship_size-2) {
 					capBoard.add(new Square(x,(char)(y+i)));
 				}
@@ -88,7 +104,14 @@ public class Board {
 		}
 		int ship_size = ship.getShip_size(); // Get ship size for loops
 		boolean boundary;
-
+		if(ship_size == 5){
+			if(!isVertical && (x-1) < 1){
+				return false;
+			}
+			if(isVertical && ((y - 1) < 'A')){
+				return false;
+			}
+		}
 		if(isVertical && (x + ship_size) <= 11) {  //boundary control
 			boundary = placeBoundaryControl(ship_size, x, y, true);
 			if(!boundary) {

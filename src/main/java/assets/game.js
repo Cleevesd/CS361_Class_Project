@@ -61,6 +61,9 @@ function redrawGrid() {
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
+    game.opponentsBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+        document.getElementById("opponent").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
+    }));
 
     // Display the area affected by Sonar Pulse. Currently disables transition from setup.
     // if (game.opponentsBoard.sonarPulseEmptySquares.length() != null) {
@@ -101,7 +104,7 @@ function cellClick() {
 
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == 4) {
                 isSetup = false;
                 var buttons = document.getElementById('button_panel');
                 buttons.style.display = 'none';
@@ -133,7 +136,7 @@ function cellClick() {
             redrawGrid();
 
             // If the player just sunk the first enemy ship, unlock Sonar Pulse.
-            if(game.opponentsBoard.ships.length < 3 && !sonarPulseUnlocked) {
+            if(game.opponentsBoard.ships.length < 4 && !sonarPulseUnlocked) {
                 sonarPulseUnlocked = true;
                 sonarPulseCount = 2;
                 alert("Sonar Pulse has been unlocked!\nUse this weapon to reveal enemy ships within a 3x3 grid.");
@@ -240,6 +243,10 @@ function initGame() {
     document.getElementById("place_battleship").addEventListener("click", function(e) {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
+    });
+    document.getElementById("place_submarine").addEventListener("click", function(e) {
+        shipType = "SUBMARINE";
+        registerCellListener(place(5));
     });
     btn.addEventListener('click', updateRotate);
     sendXhr("GET", "/game", {}, function(data) {
