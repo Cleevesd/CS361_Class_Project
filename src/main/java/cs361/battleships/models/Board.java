@@ -111,6 +111,23 @@ public class Board {
 			if(isVertical && ((y - 1) < 'A')){
 				return false;
 			}
+			// THIS BLOCK OF CODE IS HACKY --- MAYBE REFACTOR IF THERE IS TIME
+			if(isVertical && (x + ship_size) <= 12) {  //boundary control  WE HAVE A PROBLEM HERE WITH SUB SIZE=5
+				boundary = placeBoundaryControl(ship_size, x, y, true);
+				if(!boundary) {
+					return false;
+				}
+				addShips(ship_size, x, y, ship, true);
+				return true;
+			}
+			else if(!isVertical && (k + ship_size) < 12) { // Boundary Control
+				boundary = placeBoundaryControl(ship_size, x, y, false);
+				if(!boundary) {
+					return false;
+				}
+				addShips(ship_size, x, y, ship, false);
+				return true;
+			}
 		}
 		if(isVertical && (x + ship_size) <= 11) {  //boundary control
 			boundary = placeBoundaryControl(ship_size, x, y, true);
