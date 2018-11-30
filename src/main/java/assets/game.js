@@ -6,20 +6,30 @@ var sonarPulseActive = false;
 var game;
 var shipType;
 var vertical;
+var submerged;
 var btn = document.getElementById('is_vertical');
 var Phase1_text = document.getElementById('Place_indicator');
 var Phase2_text = document.getElementById('Attack_indicator');
 var attackLog = document.getElementById('attack_log');
+var sub = document.getElementById('is_submerged');
 
 
 function updateRotate() {
-    if(btn.value === 'Vertical') {
-        btn.value = 'Horizontal';
+     if(btn.value === 'Vertical') {
+         btn.value = 'Horizontal';
+     }
+     else {
+         btn.value = 'Vertical';
+     }
+ }
+ function updateLocation() {
+    if(sub.value === 'Submerged') {
+        sub.value = 'Afloat';
     }
     else {
-        btn.value = 'Vertical';
+        sub.value = 'Submerged';
     }
-}
+ }
 
 function makeGrid(table, isPlayer) {
     Phase2_text.style.display = 'none';
@@ -99,7 +109,7 @@ function cellClick() {
     let col = String.fromCharCode(this.cellIndex + 65);
     //console.log(col);
     if (isSetup) {
-        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
+        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical, isSubmerged: submerged}, function(data) {
             game = data;
 
             redrawGrid();
@@ -206,12 +216,18 @@ function place(size) {
         else {
             vertical = false;
         }
+
+        if(document.getElementById("is_submerged").value === 'Submerged') {
+            submerged = true;
+        }
+        else {
+            submerged = false;
+        }
+
         let table = document.getElementById("player");
         for (let i=0; i<size; i++) {
             let cell;
             if(vertical) {
-
-
                 if (i == 4){
                     let tableRow = table.rows[row];
                     let extraRow = table.rows[row+1];
@@ -254,6 +270,7 @@ function initGame() {
         registerCellListener(place(5));
     });
     btn.addEventListener('click', updateRotate);
+    sub.addEventListener('click', updateLocation);
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });
