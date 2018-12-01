@@ -122,7 +122,6 @@ public class Board {
 		ships.add(ship); // Add new ship to list of ships
 	}
 
-
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -157,9 +156,6 @@ public class Board {
 				if(ship_size == 5 && isSubmerged) {
 					addSub(ship_size,x ,y, ship, true);
 				}
-				else if(ship_size == 5) {
-					addShips(ship_size,x ,y, ship, true);
-				}
 				else {
 					addShips(ship_size, x, y, ship, true);
 				}
@@ -170,7 +166,12 @@ public class Board {
 				if(!boundary) {
 					return false;
 				}
-				addShips(ship_size, x, y, ship, false);
+				if(ship_size == 5 && isSubmerged) {
+					addSub(ship_size,x ,y, ship, false);
+				}
+				else {
+					addShips(ship_size, x, y, ship, false);
+				}
 				return true;
 			}
 		}
