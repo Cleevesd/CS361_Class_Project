@@ -8,7 +8,9 @@ public class Board {
 	private char [] columns = {'A','B','C','D','E','F','G','H','I','J'};
 	private List<Ship> ships;
 	private List<Square> shipBoard;
+	private List<Square> shipBoardSub;
 	private List<Square> capBoard;
+	private List<Square> capBoardSub;
 	private List<Result> previousAttacks;
 	public List<Square> sonarPulseEmptySquares;
 	public List<Square> sonarPulseOccupiedSquares;
@@ -19,7 +21,9 @@ public class Board {
 		// TODO Implement
 		ships = new ArrayList<Ship>(); // A list of what ships you've used
 		shipBoard = new ArrayList<Square>();
+		shipBoardSub = new ArrayList<Square>();
 		capBoard = new ArrayList<Square>();
+		capBoardSub = new ArrayList<Square>();
 		previousAttacks = new ArrayList<Result>();
 		sonarPulseEmptySquares = new ArrayList<Square>();
 		sonarPulseOccupiedSquares = new ArrayList<Square>();
@@ -52,32 +56,28 @@ public class Board {
 
 	public void addShips(int ship_size, int x, char y, Ship ship, boolean isVertical) {
 		for (int i = 0; i < ship_size; i++) { // Placing ship location
-			if(isVertical) {
-				if (i < 4){		// All ship squares up until the notch in the sub
+			if (isVertical) {
+				if (i < 4) {        // All ship squares up until the notch in the sub
 					shipBoard.add(new Square(x + i, y)); // Adds ship location to the ship board
-				}
-				else {
-					shipBoard.add(new Square(x +1, (char)(y-1))); // Sets the notch in the sub
+				} else {
+					shipBoard.add(new Square(x + 1, (char) (y - 1))); // Sets the notch in the sub
 				}
 				if (i == ship_size - 2) {
 					if (ship_size < 5) {
 						capBoard.add(new Square(x + i, y));
-					}
-					else {
+					} else {
 						capBoard.add(new Square(x, y));
 					}
 				}
-			}
-			else {
-				if (i < 4) {	// All ship squares leading up to the sub
-					shipBoard.add(new Square(x,(char)(y+i)));
-				}
-				else{
-					shipBoard.add(new Square(x-1,(char)(y+2)));	// Sets the out-of-ordinary ship square
+			} else {
+				if (i < 4) {    // All ship squares leading up to the sub
+					shipBoard.add(new Square(x, (char) (y + i)));
+				} else {
+					shipBoard.add(new Square(x - 1, (char) (y + 2)));    // Sets the out-of-ordinary ship square
 				}
 
-				if (i == ship_size-2) {
-					capBoard.add(new Square(x,(char)(y+i)));
+				if (i == ship_size - 2) {
+					capBoard.add(new Square(x, (char) (y + i)));
 				}
 			}
 
@@ -87,10 +87,75 @@ public class Board {
 		ships.add(ship); // Add new ship to list of ships
 	}
 
+	public void addSub(int ship_size, int x, char y, Ship ship, boolean isVertical, boolean isSubmerged) {
+
+			for (int i = 0; i < ship_size; i++) { // Placing ship location
+				if (!isSubmerged) {
+					if (isVertical) {
+						if (i < 4) {        // All ship squares up until the notch in the sub
+							shipBoard.add(new Square(x + i, y)); // Adds ship location to the ship board
+						} else {
+							shipBoard.add(new Square(x + 1, (char) (y - 1))); // Sets the notch in the sub
+						}
+						if (i == ship_size - 2) {
+							if (ship_size < 5) {
+								capBoard.add(new Square(x + i, y));
+							} else {
+								capBoard.add(new Square(x, y));
+							}
+						}
+					}
+					else {
+						if (i < 4) {    // All ship squares leading up to the sub
+							shipBoard.add(new Square(x, (char) (y + i)));
+						} else {
+							shipBoard.add(new Square(x - 1, (char) (y + 2)));    // Sets the out-of-ordinary ship square
+						}
+
+						if (i == ship_size - 2) {
+							capBoard.add(new Square(x, (char) (y + i)));
+						}
+					}
+				}
+				else {
+					if (isVertical) {
+						if (i < 4) {        // All ship squares up until the notch in the sub
+							shipBoardSub.add(new Square(x + i, y)); // Adds ship location to the ship board
+						} else {
+							shipBoardSub.add(new Square(x + 1, (char) (y - 1))); // Sets the notch in the sub
+						}
+						if (i == ship_size - 2) {
+							if (ship_size < 5) {
+								capBoardSub.add(new Square(x + i, y));
+							} else {
+								capBoardSub.add(new Square(x, y));
+							}
+						}
+					}
+					else {
+						if (i < 4) {    // All ship squares leading up to the sub
+							shipBoardSub.add(new Square(x, (char) (y + i)));
+						} else {
+							shipBoardSub.add(new Square(x - 1, (char) (y + 2)));    // Sets the out-of-ordinary ship square
+						}
+
+						if (i == ship_size - 2) {
+							capBoardSub.add(new Square(x, (char) (y + i)));
+						}
+					}
+				}
+			}
+		ship.setOccupiedSquares(shipBoardSub);
+		ship.setCaptainQuarters(capBoardSub);
+		ships.add(ship); // Add new ship to list of ships
+	}
+
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+	public boolean placeShip(Ship ship, int x, char y, boolean isVertical, boolean isSubmerged) {
+		//System.out.println(isSubmerged);
 		// TODO Implement
 		for(int i = 0; i < ships.size(); i++) {
 			if(ships.get(i).getKind().equals(ship.getKind())) { // Checks ships ArrayList and compares to current ship, if any are equal return false
@@ -117,7 +182,15 @@ public class Board {
 				if(!boundary) {
 					return false;
 				}
-				addShips(ship_size, x, y, ship, true);
+				if(ship_size == 5 && isSubmerged) {
+					addSub(ship_size,x ,y, ship, true, true);
+				}
+				else if(ship_size == 5) {
+					addShips(ship_size,x ,y, ship, true);
+				}
+				else {
+					addShips(ship_size, x, y, ship, true);
+				}
 				return true;
 			}
 			else if(!isVertical && (k + ship_size) < 12) { // Boundary Control
