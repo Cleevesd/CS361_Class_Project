@@ -138,6 +138,35 @@ public class BoardTest {
 
 
     }
+
+    @Test
+    public void testMoveFleetNORTH() {
+        Board board = new Board();
+        Result result = new Result();
+
+        board.placeShip(new Ship("BATTLESHIP"),2,'D',false);
+        board.placeShip(new Ship("MINESWEEPER"),3,'A',true);
+        board.placeShip(new Ship("DESTROYER"),7,'E',false);
+
+        board.attack(3,'A');
+        board.attack(4,'A');
+        board.attack(7,'F');
+        board.attack(7,'F');
+        result = board.moveFleet("NORTH");
+        System.out.println(board.getShips().size());
+        System.out.println(board.getShips().get(2).getOccupiedSquares().get(0).getColumn());
+        System.out.println(board.getShips().get(2).getOccupiedSquares().get(0).getRow());
+
+
+        System.out.println();
+        System.out.println(board.getShips());
+        for (var i = 0; i < board.getShips().size(); i++) {
+            System.out.println(board.getShips().get(i).getKind() + ".getOccupiedSquares().size(): '" + board.getShips().get(i).getOccupiedSquares().size() + "'");
+        }
+
+//        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getRow() == 1);
+//        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'D');
+    }
 }
 
 
