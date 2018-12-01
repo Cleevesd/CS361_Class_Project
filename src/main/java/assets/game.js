@@ -231,7 +231,6 @@ function place(size) {
                 if (i == 4){
                     let tableRow = table.rows[row];
                     let extraRow = table.rows[row+1];
-                    console.log(tableRow);
                     cell = extraRow.cells[col-1];
                 }
                 else {
@@ -239,7 +238,15 @@ function place(size) {
                     cell = tableRow.cells[col];
                 }
             } else {
-                cell = table.rows[row].cells[col+i];
+                if(i ==4){
+                    let tableRow = table.rows[row];
+                    let extraRow = table.rows[row-1];
+                    console.log(extraRow);
+                    cell = extraRow.cells[col+2];
+                }
+                else{
+                    cell = table.rows[row].cells[col+i];
+                }
             }
             if (cell === undefined) {
                 // ship is over the edge; let the back end deal with it
