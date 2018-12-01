@@ -8,7 +8,9 @@ public class Board {
 	private char [] columns = {'A','B','C','D','E','F','G','H','I','J'};
 	private List<Ship> ships;
 	private List<Square> shipBoard;
+	private List<Square> shipBoardSub;
 	private List<Square> capBoard;
+	private List<Square> capBoardSub;
 	private List<Result> previousAttacks;
 	public List<Square> sonarPulseEmptySquares;
 	public List<Square> sonarPulseOccupiedSquares;
@@ -19,7 +21,9 @@ public class Board {
 		// TODO Implement
 		ships = new ArrayList<Ship>(); // A list of what ships you've used
 		shipBoard = new ArrayList<Square>();
+		shipBoardSub = new ArrayList<Square>();
 		capBoard = new ArrayList<Square>();
+		capBoardSub = new ArrayList<Square>();
 		previousAttacks = new ArrayList<Result>();
 		sonarPulseEmptySquares = new ArrayList<Square>();
 		sonarPulseOccupiedSquares = new ArrayList<Square>();
@@ -52,16 +56,28 @@ public class Board {
 
 	public void addShips(int ship_size, int x, char y, Ship ship, boolean isVertical) {
 		for (int i = 0; i < ship_size; i++) { // Placing ship location
-			if(isVertical) {
-				shipBoard.add(new Square(x + i, y)); // Adds ship location to the ship board
-				if (i == ship_size - 2) {
-					capBoard.add(new Square(x + i, y));
+			if (isVertical) {
+				if (i < 4) {        // All ship squares up until the notch in the sub
+					shipBoard.add(new Square(x + i, y)); // Adds ship location to the ship board
+				} else {
+					shipBoard.add(new Square(x + 1, (char) (y - 1))); // Sets the notch in the sub
 				}
-			}
-			else {
-				shipBoard.add(new Square(x,(char)(y+i)));
-				if (i == ship_size-2) {
-					capBoard.add(new Square(x,(char)(y+i)));
+				if (i == ship_size - 2) {
+					if (ship_size < 5) {
+						capBoard.add(new Square(x + i, y));
+					} else {
+						capBoard.add(new Square(x, y));
+					}
+				}
+			} else {
+				if (i < 4) {    // All ship squares leading up to the sub
+					shipBoard.add(new Square(x, (char) (y + i)));
+				} else {
+					shipBoard.add(new Square(x - 1, (char) (y + 2)));    // Sets the out-of-ordinary ship square
+				}
+
+				if (i == ship_size - 2) {
+					capBoard.add(new Square(x, (char) (y + i)));
 				}
 			}
 
@@ -71,10 +87,47 @@ public class Board {
 		ships.add(ship); // Add new ship to list of ships
 	}
 
+	public void addSub(int ship_size, int x, char y, Ship ship, boolean isVertical) {
+
+			for (int i = 0; i < ship_size; i++) { // Placing ship location
+					if (isVertical) {
+						if (i < 4) {        // All ship squares up until the notch in the sub
+							shipBoardSub.add(new Square(x + i, y)); // Adds ship location to the ship board
+						} else {
+							shipBoardSub.add(new Square(x + 1, (char) (y - 1))); // Sets the notch in the sub
+						}
+						if (i == ship_size - 2) {
+							if (ship_size < 5) {
+								capBoardSub.add(new Square(x + i, y));
+							} else {
+								capBoardSub.add(new Square(x, y));
+							}
+						}
+					}
+					else {
+						if (i < 4) {    // All ship squares leading up to the sub
+							shipBoardSub.add(new Square(x, (char) (y + i)));
+						} else {
+							shipBoardSub.add(new Square(x - 1, (char) (y + 2)));    // Sets the out-of-ordinary ship square
+						}
+
+						if (i == ship_size - 2) {
+							capBoardSub.add(new Square(x, (char) (y + i)));
+						}
+					}
+
+			}
+		ship.setSubSquares(shipBoardSub);
+		ship.setCapQuarters(capBoardSub);
+		ships.add(ship); // Add new ship to list of ships
+	}
+
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+	public boolean placeShip(Ship ship, int x, char y, boolean isVertical, boolean isSubmerged) {
+		//System.out.println(isSubmerged);
 		// TODO Implement
 		for(int i = 0; i < ships.size(); i++) {
 			if(ships.get(i).getKind().equals(ship.getKind())) { // Checks ships ArrayList and compares to current ship, if any are equal return false
@@ -88,7 +141,41 @@ public class Board {
 		}
 		int ship_size = ship.getShip_size(); // Get ship size for loops
 		boolean boundary;
-
+		if(ship_size == 5){
+			if(!isVertical && (x-1) < 1){
+				return false;
+			}
+			if(isVertical && ((y - 1) < 'A')){
+				return false;
+			}
+			// THIS BLOCK OF CODE IS HACKY --- MAYBE REFACTOR IF THERE IS TIME
+			if(isVertical && (x + ship_size) <= 12) {  //boundary control  WE HAVE A PROBLEM HERE WITH SUB SIZE=5
+				boundary = placeBoundaryControl(ship_size, x, y, true);
+				if(!boundary) {
+					return false;
+				}
+				if(ship_size == 5 && isSubmerged) {
+					addSub(ship_size,x ,y, ship, true);
+				}
+				else {
+					addShips(ship_size, x, y, ship, true);
+				}
+				return true;
+			}
+			else if(!isVertical && (k + ship_size) < 12) { // Boundary Control
+				boundary = placeBoundaryControl(ship_size, x, y, false);
+				if(!boundary) {
+					return false;
+				}
+				if(ship_size == 5 && isSubmerged) {
+					addSub(ship_size,x ,y, ship, false);
+				}
+				else {
+					addShips(ship_size, x, y, ship, false);
+				}
+				return true;
+			}
+		}
 		if(isVertical && (x + ship_size) <= 11) {  //boundary control
 			boundary = placeBoundaryControl(ship_size, x, y, true);
 			if(!boundary) {
@@ -292,101 +379,6 @@ public class Board {
 		result.setResult(AtackStatus.SONARATTACK);
 		return result;
 	}
-
-	public Result moveFleet(String x){
-		Result result = new Result();
-		AtackStatus status;
-		if(x.equals("NORTH")){
-			for (int i = 0; i < ships.size(); i++) {
-				boolean canMove = true;
-				for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-					if(ships.get(i).getOccupiedSquares().get(j).getRow() < 2) {
-						canMove = false;
-					}
-				}
-				if (canMove) {
-					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-						int a = ships.get(i).getOccupiedSquares().get(j).getRow();
-						ships.get(i).getOccupiedSquares().get(j).setRow(a - 1);
-					}
-				}
-			}
-		}
-
-		else if(x.equals("SOUTH")){
-			//boundary check
-			for (int i = 0; i < ships.size(); i++) {
-				boolean canMove = true;
-				for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-					if(ships.get(i).getOccupiedSquares().get(j).getRow() > 9) {
-						canMove = false;
-					}
-				}
-				if (canMove) {
-					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-						int a = ships.get(i).getOccupiedSquares().get(j).getRow();
-						ships.get(i).getOccupiedSquares().get(j).setRow(a + 1);
-					}
-				}
-			}
-			status = AtackStatus.MOVEFLEET;
-			result.setResult(status);
-		}
-
-		else if(x.equals("EAST")){
-			//boundary check
-			for (int i = 0; i < ships.size(); i++) {
-				boolean canMove = true;
-				for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-					if(ships.get(i).getOccupiedSquares().get(j).getColumn() > 'I') {
-						canMove = false;
-					}
-				}
-				if (canMove) {
-					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-						char a = ships.get(i).getOccupiedSquares().get(j).getColumn();
-						char newColumn = 'A';
-						for (int k = 0; k < columns.length; k++) {
-							if (a == columns[k])
-								newColumn = columns[k + 1];
-						}
-						ships.get(i).getOccupiedSquares().get(j).setColumn(newColumn);
-					}
-				}
-			}
-
-			status = AtackStatus.MOVEFLEET;
-			result.setResult(status);
-		}
-
-		else if(x.equals("WEST")){
-			//boundary check
-			for (int i = 0; i < ships.size(); i++) {
-				boolean canMove = true;
-				for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-					if (ships.get(i).getOccupiedSquares().get(j).getColumn() < 'B') {
-						canMove = false;
-					}
-				}
-				if (canMove) {
-					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-						char a = ships.get(i).getOccupiedSquares().get(j).getColumn();
-						char newColumn = 'A';
-						for (int k = 0; k < columns.length; k++) {
-							if (a == columns[k])
-								newColumn = columns[k - 1];
-						}
-						ships.get(i).getOccupiedSquares().get(j).setColumn(newColumn);
-					}
-				}
-			}
-
-			status = AtackStatus.MOVEFLEET;
-			result.setResult(status);
-		}
-		return result;
-	}
-
     public List<Ship> getShips() {
         //TODO implement
         return this.ships;

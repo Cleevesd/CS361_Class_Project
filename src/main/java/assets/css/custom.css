@@ -1,11 +1,6 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
 
-@font-face {
-    font-family: digital;
-    src: url('digital-7.ttf');
- }
-
 .battleGrid {
     border: 1px solid #7F7F7F;
     background: lightskyblue;
@@ -100,14 +95,6 @@ td:hover {
    transition:        @transition;
 }
 
-#move_container {
-    position: absolute;
-    width: 110px;
-    left: 1300px;
-    top: 140px;
-    display: none;
-}
-
 #sonar_pulse {
     left: 1300px;
     bottom: 450px;
@@ -116,23 +103,39 @@ td:hover {
 
 #place_minesweeper {
     left: 1300px;
-    bottom: 450px;
+    bottom: 550px;
 }
 
 #place_destroyer {
     left: 1400px;
-    bottom: 450px;
+    bottom: 550px;
 }
 
 #place_battleship {
     left: 1095px;
-    bottom: 250px;
+    bottom: 350px;
+}
+
+#place_submarine {
+    left: 1195px;
+    bottom: 350px;
 }
 
 #is_vertical {
-    left: 1195px;
-    bottom: 250px;
+    left: 890px;
+    bottom: 150px;
 }
+
+#is_submerged {
+    left: 990px;
+    bottom: 150px;
+}
+
+
+
+
+
+
 
 .myText {
     width: 180px;

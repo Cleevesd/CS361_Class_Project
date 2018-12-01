@@ -3,27 +3,33 @@ var placedShips = 0;
 var sonarPulseUnlocked = false;
 var sonarPulseCount = 0;
 var sonarPulseActive = false;
-var moveFleetUnlocked = false;
-var moveFleetCount = 0;
-var moveFleetActive = false;
 var game;
 var shipType;
 var vertical;
+var submerged;
 var btn = document.getElementById('is_vertical');
 var Phase1_text = document.getElementById('Place_indicator');
 var Phase2_text = document.getElementById('Attack_indicator');
 var attackLog = document.getElementById('attack_log');
-var direction;
+var sub = document.getElementById('is_submerged');
 
 
 function updateRotate() {
-    if(btn.value === 'Vertical') {
-        btn.value = 'Horizontal';
+     if(btn.value === 'Vertical') {
+         btn.value = 'Horizontal';
+     }
+     else {
+         btn.value = 'Vertical';
+     }
+ }
+ function updateLocation() {
+    if(sub.value === 'Submerged') {
+        sub.value = 'Afloat';
     }
     else {
-        btn.value = 'Vertical';
+        sub.value = 'Submerged';
     }
-}
+ }
 
 function makeGrid(table, isPlayer) {
     Phase2_text.style.display = 'none';
@@ -65,8 +71,14 @@ function redrawGrid() {
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
+    /*game.opponentsBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+        document.getElementById("opponent").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
+    }));*/
 
-    // Display the area affected by Sonar Pulse.
+
+    // Display the area affected by Sonar Pulse. Currently disables transition from setup.
+    // if (game.opponentsBoard.sonarPulseEmptySquares.length() != null) {
+    // }
     game.opponentsBoard.sonarPulseEmptySquares.forEach((square) => {
         document.getElementById("opponent").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("pulseEmpty");
     });
@@ -96,15 +108,14 @@ function registerCellListener(f) {
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
-    console.log(col);
-
+    //console.log(col);
     if (isSetup) {
-        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
+        sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical, isSubmerged: submerged}, function(data) {
             game = data;
 
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == 4) {
                 isSetup = false;
                 var buttons = document.getElementById('button_panel');
                 buttons.style.display = 'none';
@@ -126,22 +137,9 @@ function cellClick() {
         sendXhr("POST", "/sonarPulseAttack", {game: game, x: row, y: col}, function(data) {
             game = data;
             redrawGrid();
-            alert("You just used your sonar pulse!");
+            alert("You just tried to use your sonar pulse!");
         })
         sonarPulseActive = false;
-    }
-    else if (moveFleetActive) {
-        sendXhr(
-            "POST"
-            , "/moveFleet"
-            , {game: game, direction: direction}
-            , function(data) {
-                game = data;
-                redrawGrid();
-                alert("You just moved your fleet!");
-            }
-        )
-        moveFleetActive = false;
     }
     else {
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
@@ -149,7 +147,7 @@ function cellClick() {
             redrawGrid();
 
             // If the player just sunk the first enemy ship, unlock Sonar Pulse.
-            if (game.opponentsBoard.ships.length < 3 && !sonarPulseUnlocked) {
+            if(game.opponentsBoard.ships.length < 4 && !sonarPulseUnlocked) {
                 sonarPulseUnlocked = true;
                 sonarPulseCount = 2;
                 alert("Sonar Pulse has been unlocked!\nUse this weapon to reveal enemy ships within a 3x3 grid.");
@@ -159,26 +157,6 @@ function cellClick() {
                 document.getElementById('sonar_pulse').addEventListener("click", function(e) {
                     registerCellListener(sonarPulse());
                 });
-            }
-
-            // If the player just sunk the second enemy ship, unlock Fleet Movement.
-            if (game.opponentsBoard.ships.length < 2 && !moveFleetUnlocked) {
-                moveFleetUnlocked = true;
-                moveFleetCount = 2;
-                alert("Fleet Movement has been unlocked!\nUse this to move all of your ships in the selected direction by one square.");
-
-                // Load buttons for Fleet Movement.
-                document.getElementById('move_container').style.display = 'block';
-                document.getElementById('move_container').addEventListener("click", function(e) {
-                    registerCellListener(moveFleet());
-                });
-                document.getElementById('move_container').addEventListener("click", cellClick);
-                var moveButtonArray = document.getElementsByClassName('move_button');
-                for (var i = 0; i < moveButtonArray.length; i++) {
-                    moveButtonArray[i].addEventListener("click", function(e) {
-                        registerCellListener(setDirection());
-                    })
-                }
             }
 
             // Post attacks to attack log
@@ -211,32 +189,12 @@ function sendXhr(method, url, data, handler) {
     req.send(JSON.stringify(data));
 }
 
-function setDirection() {
-    console.log("Moving fleet one square to the: ", this.document.activeElement.id);
-    direction = this.document.activeElement.id;
-}
-
-function moveFleet() {
-    if (moveFleetCount === 2) {
-        alert("Only one fleet movement left.");
-        moveFleetActive = true;
-        moveFleetCount--;
-    } else if (moveFleetCount === 1) {
-        alert("You can no longer move your fleet.");
-        document.getElementById('move_container').style.display = 'none';
-        moveFleetActive = true;
-        moveFleetCount--;
-    } else {
-        alert("Sorry, you can no longer move your fleet! This button shouldn't be here anymore.");
-        document.getElementById('move_container').style.display = 'none';
-    }
-}
-
 function sonarPulse() {
     if (sonarPulseCount === 2) {
         alert("Sonar Pulse is locked and loaded! You have 1 Sonar Pulse left.");
         sonarPulseActive = true;
         sonarPulseCount--;
+
     } else if (sonarPulseCount === 1) {
         alert("Final Sonar Pulse is locked and loaded! You have no more Sonar Pulses left.");
         document.getElementById('sonar_pulse').style.display = 'none';
@@ -246,31 +204,50 @@ function sonarPulse() {
         alert("Sorry, you're all out of Sonar Pulses! This button shouldn't be here anymore.");
         document.getElementById('sonar_pulse').style.display = 'none';
     }
+    // return 0;
 }
 
 function place(size) {
     return function() {
         let row = this.parentNode.rowIndex;
         let col = this.cellIndex;
-
         if(document.getElementById("is_vertical").value === 'Vertical') {
             vertical = true;
         }
         else {
             vertical = false;
         }
+
+        if(document.getElementById("is_submerged").value === 'Submerged') {
+            submerged = true;
+        }
+        else {
+            submerged = false;
+        }
+
         let table = document.getElementById("player");
         for (let i=0; i<size; i++) {
             let cell;
             if(vertical) {
-                let tableRow = table.rows[row+i];
-                if (tableRow === undefined) {
-                    // ship is over the edge; let the back end deal with it
-                    break;
+                if (i == 4){
+                    let tableRow = table.rows[row];
+                    let extraRow = table.rows[row+1];
+                    cell = extraRow.cells[col-1];
                 }
-                cell = tableRow.cells[col];
+                else {
+                    let tableRow = table.rows[row + i];
+                    cell = tableRow.cells[col];
+                }
             } else {
-                cell = table.rows[row].cells[col+i];
+                if(i ==4){
+                    let tableRow = table.rows[row];
+                    let extraRow = table.rows[row-1];
+                    console.log(extraRow);
+                    cell = extraRow.cells[col+2];
+                }
+                else{
+                    cell = table.rows[row].cells[col+i];
+                }
             }
             if (cell === undefined) {
                 // ship is over the edge; let the back end deal with it
@@ -296,7 +273,12 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
     });
+    document.getElementById("place_submarine").addEventListener("click", function(e) {
+        shipType = "SUBMARINE";
+        registerCellListener(place(5));
+    });
     btn.addEventListener('click', updateRotate);
+    sub.addEventListener('click', updateLocation);
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });
