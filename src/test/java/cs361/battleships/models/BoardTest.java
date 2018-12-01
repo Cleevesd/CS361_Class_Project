@@ -45,7 +45,6 @@ public class BoardTest {
 
     }
 
-
     @Test
     public void testMissedAndHitAttacks() {
         Board board = new Board();
@@ -144,6 +143,7 @@ public class BoardTest {
         board.placeShip(new Ship("BATTLESHIP"),2,'D',false);
         board.placeShip(new Ship("MINESWEEPER"),3,'A',true);
         board.placeShip(new Ship("DESTROYER"),4,'J',true);
+
         board.attack(3,'A');
         board.attack(5,'J');
         board.attack(5,'J');
@@ -158,27 +158,31 @@ public class BoardTest {
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(3).getColumn() == 'G');
     }
 
-    /*  @Test
-     public void testMoveFleetSOUTH() {
-         Board board = new Board();
-         Result result = new Result();
-         board.placeShip(new Ship("MINESWEEPER"),2,'D',false);
-         board.placeShip(new Ship("BATTLESHIP"),3,'B',true);
-         board.placeShip(new Ship("DESTROYER"),4,'I',true);
-          board.attack(5,'B');
-         board.attack(5,'I');
-         board.attack(5,'I');
-         result = board.moveFleet("SOUTH");
-         // System.out.println(board.getShips().get(0).getOccupiedSquares().size());
-         System.out.println(board.getShips().get(0).getOccupiedSquares().get(0).getRow());
-         System.out.println(board.getShips().get(0).getOccupiedSquares().get(0).getColumn());
-         System.out.println(board.getShips().get(0).getOccupiedSquares().get(1).getRow());
-         System.out.println(board.getShips().get(0).getOccupiedSquares().get(1).getColumn());
-          assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getRow() == 3);
-         assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'D');
-         assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getRow() == 3);
-         assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getColumn() == 'E');
-     }*/
+  /*  @Test
+    public void testMoveFleetSOUTH() {
+        Board board = new Board();
+        Result result = new Result();
+        board.placeShip(new Ship("MINESWEEPER"),2,'D',false);
+        board.placeShip(new Ship("BATTLESHIP"),3,'B',true);
+        board.placeShip(new Ship("DESTROYER"),4,'I',true);
+
+        board.attack(5,'B');
+        board.attack(5,'I');
+        board.attack(5,'I');
+        result = board.moveFleet("SOUTH");
+
+       // System.out.println(board.getShips().get(0).getOccupiedSquares().size());
+        System.out.println(board.getShips().get(0).getOccupiedSquares().get(0).getRow());
+        System.out.println(board.getShips().get(0).getOccupiedSquares().get(0).getColumn());
+        System.out.println(board.getShips().get(0).getOccupiedSquares().get(1).getRow());
+        System.out.println(board.getShips().get(0).getOccupiedSquares().get(1).getColumn());
+
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getRow() == 3);
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'D');
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getRow() == 3);
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getColumn() == 'E');
+
+    }*/
 
     @Test
     public void testMoveFleetEAST() {
@@ -187,11 +191,14 @@ public class BoardTest {
         board.placeShip(new Ship("MINESWEEPER"),2,'D',false);
         board.placeShip(new Ship("DESTROYER"),5,'A',true);
         board.placeShip(new Ship("BATTLESHIP"),4,'I',true);
+
         board.attack(6,'A');
         board.attack(6,'A');
         board.attack(6,'J');
         board.attack(6,'J');
         result = board.moveFleet("EAST");
+
+
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getRow() == 2);
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'E');
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getRow() == 2);
@@ -202,18 +209,16 @@ public class BoardTest {
     public void testMoveFleetWEST() {
         Board board = new Board();
         Result result = new Result();
-        board.placeShip(new Ship("MINESWEEPER"), 2, 'D', false);
-        board.placeShip(new Ship("BATTLESHIP"), 3, 'B', true);
-        board.placeShip(new Ship("DESTROYER"), 4, 'J', true);
-        board.attack(5, 'J');
-        board.attack(5, 'J');
-        board.attack(5, 'B');
-        board.attack(5, 'B');
-        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getRow() == 2);
-        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'D');
-        assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getRow() == 2);
-        assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getColumn() == 'E');
+        board.placeShip(new Ship("MINESWEEPER"),2,'D',false);
+        board.placeShip(new Ship("BATTLESHIP"),3,'B',true);
+        board.placeShip(new Ship("DESTROYER"),4,'J',true);
+
+        board.attack(5,'J');
+        board.attack(5,'J');
+        board.attack(5,'B');
+        board.attack(5,'B');
         result = board.moveFleet("WEST");
+
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getRow() == 2);
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'C');
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getRow() == 2);
