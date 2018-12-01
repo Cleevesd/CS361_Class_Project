@@ -95,6 +95,14 @@ td:hover {
    transition:        @transition;
 }
 
+#move_container {
+    position: absolute;
+    width: 110px;
+    left: 1300px;
+    top: 140px;
+    display: none;
+}
+
 #sonar_pulse {
     left: 1300px;
     bottom: 450px;

@@ -56,12 +56,10 @@ public class Ship {
 	}
 
 	public int getHealth() {
-
 		return health;
 	}
 
 	public void setOccupiedSquares(List<Square> occupiedSquares) {
-
 		this.occupiedSquares = occupiedSquares;
 	}
 
