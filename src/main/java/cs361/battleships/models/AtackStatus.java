@@ -29,4 +29,6 @@ public enum AtackStatus {
 	INVALID,
 
 	SONARATTACK,
+
+	MOVEFLEET,
 }

@@ -62,6 +62,19 @@ public class Game {
         return true;
     }
 
+    public boolean moveFleet(String direction) {
+        Result playerFleetMovement = playersBoard.moveFleet(direction);
+
+        Result opponentAttackResult;
+        do {
+            // AI does random attacks, so it might attack the same spot twice
+            // let it try until it gets it right
+            opponentAttackResult = playersBoard.attack(randRow(), randCol());
+        } while(opponentAttackResult.getResult() == INVALID);
+
+        return true;
+    }
+
     private char randCol() {
         char [] chars = {'A','B','C','D','E','F','G','H','I','J'};
         int rand;

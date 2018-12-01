@@ -378,6 +378,101 @@ public class Board {
 		result.setResult(AtackStatus.SONARATTACK);
 		return result;
 	}
+
+	public Result moveFleet(String x){
+		Result result = new Result();
+		AtackStatus status;
+		if(x.equals("NORTH")){
+			for (int i = 0; i < ships.size(); i++) {
+				boolean canMove = true;
+				for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+					if(ships.get(i).getOccupiedSquares().get(j).getRow() < 2) {
+						canMove = false;
+					}
+				}
+				if (canMove) {
+					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+						int a = ships.get(i).getOccupiedSquares().get(j).getRow();
+						ships.get(i).getOccupiedSquares().get(j).setRow(a - 1);
+					}
+				}
+			}
+		}
+
+		else if(x.equals("SOUTH")){
+			//boundary check
+			for (int i = 0; i < ships.size(); i++) {
+				boolean canMove = true;
+				for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+					if(ships.get(i).getOccupiedSquares().get(j).getRow() > 9) {
+						canMove = false;
+					}
+				}
+				if (canMove) {
+					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+						int a = ships.get(i).getOccupiedSquares().get(j).getRow();
+						ships.get(i).getOccupiedSquares().get(j).setRow(a + 1);
+					}
+				}
+			}
+			status = AtackStatus.MOVEFLEET;
+			result.setResult(status);
+		}
+
+		else if(x.equals("EAST")){
+			//boundary check
+			for (int i = 0; i < ships.size(); i++) {
+				boolean canMove = true;
+				for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+					if(ships.get(i).getOccupiedSquares().get(j).getColumn() > 'I') {
+						canMove = false;
+					}
+				}
+				if (canMove) {
+					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+						char a = ships.get(i).getOccupiedSquares().get(j).getColumn();
+						char newColumn = 'A';
+						for (int k = 0; k < columns.length; k++) {
+							if (a == columns[k])
+								newColumn = columns[k + 1];
+						}
+						ships.get(i).getOccupiedSquares().get(j).setColumn(newColumn);
+					}
+				}
+			}
+
+			status = AtackStatus.MOVEFLEET;
+			result.setResult(status);
+		}
+
+		else if(x.equals("WEST")){
+			//boundary check
+			for (int i = 0; i < ships.size(); i++) {
+				boolean canMove = true;
+				for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+					if (ships.get(i).getOccupiedSquares().get(j).getColumn() < 'B') {
+						canMove = false;
+					}
+				}
+				if (canMove) {
+					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+						char a = ships.get(i).getOccupiedSquares().get(j).getColumn();
+						char newColumn = 'A';
+						for (int k = 0; k < columns.length; k++) {
+							if (a == columns[k])
+								newColumn = columns[k - 1];
+						}
+						ships.get(i).getOccupiedSquares().get(j).setColumn(newColumn);
+					}
+				}
+			}
+
+			status = AtackStatus.MOVEFLEET;
+			result.setResult(status);
+		}
+		return result;
+	}
+
     public List<Ship> getShips() {
         //TODO implement
         return this.ships;

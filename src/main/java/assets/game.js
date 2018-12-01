@@ -3,6 +3,9 @@ var placedShips = 0;
 var sonarPulseUnlocked = false;
 var sonarPulseCount = 0;
 var sonarPulseActive = false;
+var moveFleetUnlocked = false;
+var moveFleetCount = 0;
+var moveFleetActive = false;
 var game;
 var shipType;
 var vertical;
@@ -12,6 +15,7 @@ var Phase1_text = document.getElementById('Place_indicator');
 var Phase2_text = document.getElementById('Attack_indicator');
 var attackLog = document.getElementById('attack_log');
 var sub = document.getElementById('is_submerged');
+var direction;
 
 
 function updateRotate() {
@@ -75,9 +79,7 @@ function redrawGrid() {
         document.getElementById("opponent").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));*/
 
-    // Display the area affected by Sonar Pulse. Currently disables transition from setup.
-    // if (game.opponentsBoard.sonarPulseEmptySquares.length() != null) {
-    // }
+    // Display the area affected by Sonar Pulse.
     game.opponentsBoard.sonarPulseEmptySquares.forEach((square) => {
         document.getElementById("opponent").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("pulseEmpty");
     });
@@ -107,7 +109,7 @@ function registerCellListener(f) {
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
-    //console.log(col);
+
     if (isSetup) {
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical, isSubmerged: submerged}, function(data) {
             game = data;
@@ -136,9 +138,22 @@ function cellClick() {
         sendXhr("POST", "/sonarPulseAttack", {game: game, x: row, y: col}, function(data) {
             game = data;
             redrawGrid();
-            alert("You just tried to use your sonar pulse!");
+            alert("You just used your sonar pulse!");
         })
         sonarPulseActive = false;
+    }
+    else if (moveFleetActive) {
+        sendXhr(
+            "POST"
+            , "/moveFleet"
+            , {game: game, direction: direction}
+            , function(data) {
+                game = data;
+                redrawGrid();
+                alert("You just moved your fleet!");
+            }
+        )
+        moveFleetActive = false;
     }
     else {
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
@@ -156,6 +171,26 @@ function cellClick() {
                 document.getElementById('sonar_pulse').addEventListener("click", function(e) {
                     registerCellListener(sonarPulse());
                 });
+            }
+
+            // If the player just sunk the second enemy ship, unlock Fleet Movement.
+            if (game.opponentsBoard.ships.length < 2 && !moveFleetUnlocked) {
+                moveFleetUnlocked = true;
+                moveFleetCount = 2;
+                alert("Fleet Movement has been unlocked!\nUse this to move all of your ships in the selected direction by one square.");
+
+                // Load buttons for Fleet Movement.
+                document.getElementById('move_container').style.display = 'block';
+                document.getElementById('move_container').addEventListener("click", function(e) {
+                    registerCellListener(moveFleet());
+                });
+                document.getElementById('move_container').addEventListener("click", cellClick);
+                var moveButtonArray = document.getElementsByClassName('move_button');
+                for (var i = 0; i < moveButtonArray.length; i++) {
+                    moveButtonArray[i].addEventListener("click", function(e) {
+                        registerCellListener(setDirection());
+                    })
+                }
             }
 
             // Post attacks to attack log
@@ -188,12 +223,32 @@ function sendXhr(method, url, data, handler) {
     req.send(JSON.stringify(data));
 }
 
+function setDirection() {
+    console.log("Moving fleet one square to the: ", this.document.activeElement.id);
+    direction = this.document.activeElement.id;
+}
+
+function moveFleet() {
+    if (moveFleetCount === 2) {
+        alert("Only one fleet movement left.");
+        moveFleetActive = true;
+        moveFleetCount--;
+    } else if (moveFleetCount === 1) {
+        alert("You can no longer move your fleet.");
+        document.getElementById('move_container').style.display = 'none';
+        moveFleetActive = true;
+        moveFleetCount--;
+    } else {
+        alert("Sorry, you can no longer move your fleet! This button shouldn't be here anymore.");
+        document.getElementById('move_container').style.display = 'none';
+    }
+}
+
 function sonarPulse() {
     if (sonarPulseCount === 2) {
         alert("Sonar Pulse is locked and loaded! You have 1 Sonar Pulse left.");
         sonarPulseActive = true;
         sonarPulseCount--;
-
     } else if (sonarPulseCount === 1) {
         alert("Final Sonar Pulse is locked and loaded! You have no more Sonar Pulses left.");
         document.getElementById('sonar_pulse').style.display = 'none';
@@ -203,7 +258,6 @@ function sonarPulse() {
         alert("Sorry, you're all out of Sonar Pulses! This button shouldn't be here anymore.");
         document.getElementById('sonar_pulse').style.display = 'none';
     }
-    // return 0;
 }
 
 function place(size) {
