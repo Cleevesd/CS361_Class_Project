@@ -87,37 +87,9 @@ public class Board {
 		ships.add(ship); // Add new ship to list of ships
 	}
 
-	public void addSub(int ship_size, int x, char y, Ship ship, boolean isVertical, boolean isSubmerged) {
+	public void addSub(int ship_size, int x, char y, Ship ship, boolean isVertical) {
 
 			for (int i = 0; i < ship_size; i++) { // Placing ship location
-				if (!isSubmerged) {
-					if (isVertical) {
-						if (i < 4) {        // All ship squares up until the notch in the sub
-							shipBoard.add(new Square(x + i, y)); // Adds ship location to the ship board
-						} else {
-							shipBoard.add(new Square(x + 1, (char) (y - 1))); // Sets the notch in the sub
-						}
-						if (i == ship_size - 2) {
-							if (ship_size < 5) {
-								capBoard.add(new Square(x + i, y));
-							} else {
-								capBoard.add(new Square(x, y));
-							}
-						}
-					}
-					else {
-						if (i < 4) {    // All ship squares leading up to the sub
-							shipBoard.add(new Square(x, (char) (y + i)));
-						} else {
-							shipBoard.add(new Square(x - 1, (char) (y + 2)));    // Sets the out-of-ordinary ship square
-						}
-
-						if (i == ship_size - 2) {
-							capBoard.add(new Square(x, (char) (y + i)));
-						}
-					}
-				}
-				else {
 					if (isVertical) {
 						if (i < 4) {        // All ship squares up until the notch in the sub
 							shipBoardSub.add(new Square(x + i, y)); // Adds ship location to the ship board
@@ -143,10 +115,10 @@ public class Board {
 							capBoardSub.add(new Square(x, (char) (y + i)));
 						}
 					}
-				}
+
 			}
-		ship.setOccupiedSquares(shipBoardSub);
-		ship.setCaptainQuarters(capBoardSub);
+		ship.setSubSquares(shipBoardSub);
+		ship.setCapQuarters(capBoardSub);
 		ships.add(ship); // Add new ship to list of ships
 	}
 
@@ -183,7 +155,7 @@ public class Board {
 					return false;
 				}
 				if(ship_size == 5 && isSubmerged) {
-					addSub(ship_size,x ,y, ship, true, true);
+					addSub(ship_size,x ,y, ship, true);
 				}
 				else if(ship_size == 5) {
 					addShips(ship_size,x ,y, ship, true);

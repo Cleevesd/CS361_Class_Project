@@ -1,6 +1,7 @@
 package cs361.battleships.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.loader.custom.sql.SQLQueryReturnProcessor;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -9,6 +10,9 @@ public class Ship {
 
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private List<Square> captainQuarters;
+	@JsonProperty private List<Square> subSquares;
+	@JsonProperty private List<Square> capQuarters;
+
 	private String kind;
 	private int ship_size;
 	private int health;
@@ -64,6 +68,23 @@ public class Ship {
 	public List<Square> getOccupiedSquares() {
 		//TODO implement
 		return occupiedSquares;
+	}
+	public void setSubSquares(List<Square> subSquares) {
+
+		this.subSquares = subSquares;
+	}
+
+	public List<Square> getSubSquares() {
+		//TODO implement
+		return subSquares;
+	}
+
+	public void setCapQuarters(List<Square> capQuarters) {
+		this.capQuarters = capQuarters;
+	}
+
+	public List<Square> getCapQuarters() {
+		return capQuarters;
 	}
 
 	public void setCaptainQuarters(List<Square> captainQuarters) {
