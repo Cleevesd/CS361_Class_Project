@@ -10,27 +10,27 @@ public class BoardTest {
     @Test
     public void testInvalidPlacement() {
         Board board = new Board();
-        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 11, 'C', true));
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 11, 'C', true, false));
     }
 
     @Test
     public void testValidPlacement() {
         Board board = new Board();
-        assertTrue(board.placeShip(new Ship("BATTLESHIP"), 5, 'E', false));
+        assertTrue(board.placeShip(new Ship("BATTLESHIP"), 5, 'E', false, false));
     }
 
     @Test
     public void testOverlapPlacement(){
         Board board = new Board();
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 5, 'A', false));
-        assertFalse(board.placeShip(new Ship("DESTROYER"), 5, 'A', false));
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 5, 'A', false, false));
+        assertFalse(board.placeShip(new Ship("DESTROYER"), 5, 'A', false, false));
     }
 
     @Test
     public void testMultipleKind() {
         Board board = new Board();
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false));
-        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 5, 'D', false));
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false, false));
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 5, 'D', false, false));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class BoardTest {
         Board board = new Board();
         Result result = new Result();
         Result result1 = new Result();
-        board.placeShip(new Ship("MINESWEEPER"),7,'G',false);
+        board.placeShip(new Ship("MINESWEEPER"),7,'G',false, false);
         result = board.attack(4,'F');
         result1 = board.attack(4,'F');
         assertTrue(result1.getResult() == AtackStatus.INVALID);
@@ -50,8 +50,8 @@ public class BoardTest {
     public void testMissedAndHitAttacks() {
         Board board = new Board();
         Result result = new Result();
-        board.placeShip(new Ship("MINESWEEPER"),2,'A',false);
-        board.placeShip(new Ship("DESTROYER"),5,'E',false);
+        board.placeShip(new Ship("MINESWEEPER"),2,'A',false, false);
+        board.placeShip(new Ship("DESTROYER"),5,'E',false, false);
 
         result = board.attack(2,'I');
         assertSame(AtackStatus.MISS, result.getResult());
@@ -65,8 +65,8 @@ public class BoardTest {
         Board board = new Board();
         Result result = new Result();
 
-        board.placeShip(new Ship("MINESWEEPER"),4,'B',true);
-        board.placeShip(new Ship("DESTROYER"),6,'D',true);
+        board.placeShip(new Ship("MINESWEEPER"),4,'B',true, false);
+        board.placeShip(new Ship("DESTROYER"),6,'D',true, false);
 
         result = board.attack(5,'B');
         assertSame(AtackStatus.HIT, result.getResult());
@@ -79,7 +79,7 @@ public class BoardTest {
     public void testSurrenderAttack(){
         Board board = new Board();
         Result result = new Result();
-        board.placeShip(new Ship("MINESWEEPER"),3,'H',true);
+        board.placeShip(new Ship("MINESWEEPER"),3,'H',true, false);
         result = board.attack(3,'H');
         assertSame(result.getResult(), AtackStatus.SURRENDER);
     }
@@ -88,7 +88,7 @@ public class BoardTest {
     public void testSonarAttackIsValid(){
         Board board = new Board();
         Result result = new Result();
-        board.placeShip(new Ship("MINESWEEPER"),4,'D',true);
+        board.placeShip(new Ship("MINESWEEPER"),4,'D',true, false);
         result = board.sonarPulseAttack(4,'D');
         assertTrue(result.getResult() == AtackStatus.SONARATTACK);
     }
@@ -97,7 +97,7 @@ public class BoardTest {
     public void testSonarAttackOccupiedSquares() {
         Board board = new Board();
         Result result = new Result();
-        board.placeShip(new Ship("BATTLESHIP"),2,'D',true);
+        board.placeShip(new Ship("BATTLESHIP"),2,'D',true, false);
         result = board.sonarPulseAttack(4,'D');
 
         assertTrue(board.sonarPulseOccupiedSquares.get(0).getRow() == 3 );
@@ -114,7 +114,7 @@ public class BoardTest {
     public void testSonarAttackEmptySquares(){
         Board board = new Board();
         Result result = new Result();
-        board.placeShip(new Ship("BATTLESHIP"),2,'D',true);
+        board.placeShip(new Ship("BATTLESHIP"),2,'D',true, false);
         result = board.sonarPulseAttack(4,'D');
 
         assertTrue(board.sonarPulseEmptySquares.get(0).getRow() == 3);
@@ -137,6 +137,13 @@ public class BoardTest {
         assertTrue(board.sonarPulseEmptySquares.get(8).getColumn() == 'F');
 
 
+    }
+
+    @Test
+    public void testInvalidSubPlacement() {
+        Board board = new Board();
+        assertFalse(board.placeShip(new Ship("SUBMARINE"), 1, 'A', true, false));
+        assertFalse(board.placeShip(new Ship("SUBMARINE"), 1, 'A', false, false));
     }
 }
 
