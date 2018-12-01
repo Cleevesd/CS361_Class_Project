@@ -148,9 +148,9 @@ public class BoardTest {
         Board board = new Board();
         Result result = new Result();
 
-        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
-        board.placeShip(new Ship("BATTLESHIP"), 3, 'B', true);
-        board.placeShip(new Ship("DESTROYER"), 4, 'J', true);
+        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true, false);
+        board.placeShip(new Ship("BATTLESHIP"), 3, 'B', true, false);
+        board.placeShip(new Ship("DESTROYER"), 4, 'J', true, false);
 
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getRow() == 1);
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'A');
