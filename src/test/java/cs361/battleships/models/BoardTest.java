@@ -45,7 +45,6 @@ public class BoardTest {
 
     }
 
-
     @Test
     public void testMissedAndHitAttacks() {
         Board board = new Board();
@@ -157,7 +156,6 @@ public class BoardTest {
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(2).getColumn() == 'F');
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(3).getRow() == 1);
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(3).getColumn() == 'G');
-
     }
 
   /*  @Test
@@ -225,7 +223,28 @@ public class BoardTest {
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'C');
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getRow() == 2);
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getColumn() == 'D');
+    }
 
+    @Test
+    public void testMoveFleetEdgeConditionNORTH() {
+        Board board = new Board();
+        Result result = new Result();
+        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
+        board.placeShip(new Ship("BATTLESHIP"), 3, 'B', true);
+        board.placeShip(new Ship("DESTROYER"), 4, 'J', true);
+
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getRow() == 1);
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'A');
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getRow() == 2);
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getColumn() == 'A');
+
+        result = board.moveFleet("NORTH");
+
+        // Check if MINESWEEPER moved. It should still be at the Northern edge of the map.
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getRow() == 1);
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'A');
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getRow() == 2);
+        assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getColumn() == 'A');
     }
 }
 

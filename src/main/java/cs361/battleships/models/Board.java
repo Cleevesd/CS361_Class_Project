@@ -387,7 +387,7 @@ public class Board {
 		return result;
 	}
 
-	public List<Ship> getShips() {
+    public List<Ship> getShips() {
         //TODO implement
         return this.ships;
     }
