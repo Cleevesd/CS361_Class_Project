@@ -1,3 +1,8 @@
+# Note for Grading:
+We attempted to implement the Space Laser for sprint 4, which can be seen in the branch "hammerOfDawn". 
+The "hammerOfDawn" branch was not merged with the "master" branch because it currently prevents the user from ending the game.
+
+
 # Battleship
 ### **Active: Sprint 4**
 
