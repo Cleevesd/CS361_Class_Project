@@ -186,6 +186,7 @@ public class BoardTest {
 
         board.sunkShip(result2, 1);
         assertSame(AtackStatus.SUNK, result2.getResult());
+    }
 
     public void testMoveFleetEdgeConditionNORTH() {
         Board board = new Board();
