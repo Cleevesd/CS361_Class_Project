@@ -74,9 +74,12 @@ function redrawGrid() {
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
-    /*game.opponentsBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+    game.opponentsBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("opponent").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
-    }));*/
+    }));
+        game.opponentsBoard.ships.forEach((ship) => ship.subSquares.forEach((square) => {
+            document.getElementById("opponent").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
+        }));
 
 
     // Display the area affected by Sonar Pulse.
@@ -207,10 +210,11 @@ function sendXhr(method, url, data, handler) {
     var req = new XMLHttpRequest();
     req.addEventListener("load", function(event) {
         if (req.status != 200) {
-            if (url === "/attack") {
-                alert("You tried to attack a spot that has already been attacked.");
-            }
-            else if (url === "/place") {
+            // if (url === "/attack") {
+            //     alert("You tried to attack a spot that has already been attacked.");
+            // }
+            // else
+            if (url === "/place") {
                 alert("You tried to place a ship invalidly.");
             }
             return;

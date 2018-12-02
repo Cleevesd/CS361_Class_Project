@@ -1,5 +1,6 @@
 package cs361.battleships.models;
 
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class Board {
 	private List<Square> capBoard;
 	private List<Square> capBoardSub;
 	private List<Result> previousAttacks;
+	private List<Result> previousHits;
 	public List<Square> sonarPulseEmptySquares;
 	public List<Square> sonarPulseOccupiedSquares;
 	/*
@@ -238,12 +240,14 @@ public class Board {
 	}
 
 	public void normalAttack(Result result, int i, int j, Square attackedTo, int index) {
+		System.out.println("Attempting normalAttack()");
         AtackStatus status;
 	    if(index == 0) {
             status = AtackStatus.HIT;
             result.setResult(status);
             result.setLocation(attackedTo);
             previousAttacks.add(result);
+//            previousHits.add(result);
             ships.get(i).getOccupiedSquares().remove(ships.get(i).getOccupiedSquares().get(j));
         }
         else {
@@ -254,46 +258,118 @@ public class Board {
         }
     }
 
+	public void subAttack(Result result, int i, int j, Square attackedTo, int index) {
+		System.out.println("Attempting subAttack()");
+		AtackStatus status;
+		if (index == 0) {
+			status = AtackStatus.HIT;
+			result.setResult(status);
+			result.setLocation(attackedTo);
+			previousAttacks.add(result);
+			ships.get(i).getSubSquares().remove(ships.get(i).getSubSquares().get(j));
+		}
+		else {
+			status = AtackStatus.MISS;
+			result.setResult(status);
+			result.setLocation(attackedTo);
+			previousAttacks.add(result);
+		}
+	}
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Result attack(int x, char y) {
 		//TODO Implement
-		Square attackedTo = new Square(x,y);
+		Square attackedTo = new Square(x, y);
 		Result result = new Result();
+		Result resultSub = new Result();
 		AtackStatus status;
-		if( x < 1 || x > 10 || y < 'A' || y > 'J') { // bounds check
+//		normalAttack(result, 0, 0, attackedTo, 1);
+//		System.out.println("result: '" + result.getResult() + "'");
+		System.out.println("ships.size(): '" + ships.size() + "'");
+
+		System.out.println("x: '" + x + "'");
+		System.out.println("y: '" + y + "'");
+
+		// Check that [x,y] is a valid location.
+		if (x < 1 || x > 10 || y < 'A' || y > 'J') {
 			status = AtackStatus.INVALID;
 			result.setResult(status);
 			return result;
 		}
-		// check for if it is shot before
-		for(int i = 0; i < previousAttacks.size(); i++) {
-			if(previousAttacks.get(i).getLocation().getRow() == attackedTo.getRow() && previousAttacks.get(i).getLocation().getColumn() == attackedTo.getColumn()){
-				status = AtackStatus.INVALID;
-				result.setResult(status);
-				return result;
+
+		System.out.println("hnnnnng");
+
+		for (int i = 0; i < ships.size(); i++) {
+			if (ships.get(i).getShip_size() == 5) {
+				for (int j = 0; j < ships.get(i).getSubSquares().size(); j++) {
+					System.out.println("ships.get(i).getSubSquares().get(j): '" + ships.get(i).getSubSquares().get(j) + "'");
+				}
+				if (ships.get(i).getSubSquares().size() == 1) {
+					status = AtackStatus.SURRENDER;
+					result.setResult(status);
+					return result;
+				}
 			}
 		}
-		for(int i = 0; i < ships.size(); i++) {
-            for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
-                if (ships.get(i).getOccupiedSquares().get(j).getRow() == attackedTo.getRow() && ships.get(i).getOccupiedSquares().get(j).getColumn() == attackedTo.getColumn()) {
-                    if (ships.get(i).getCaptainQuarters().get(0).getRow() == attackedTo.getRow() && ships.get(i).getCaptainQuarters().get(0).getColumn() == attackedTo.getColumn()) {
-                        hitCap(result, attackedTo, i);
-                        return result;
-                    } else {
-                        normalAttack(result, i, j, attackedTo, 0);
-                    }
-                    if (ships.get(i).getOccupiedSquares().size() == 0) {
-                        sunkShip(result, i);
-                        return result;
-                    }
-                    return result;
-                }
-            }
-        }
-		normalAttack(result, 0, 0, attackedTo, 1);
-		return result;
+
+//		// check for if it is shot before
+//		for(int i = 0; i < previousAttacks.size(); i++) {
+//			if(previousAttacks.get(i).getLocation().getRow() == attackedTo.getRow() && previousAttacks.get(i).getLocation().getColumn() == attackedTo.getColumn()){
+//				status = AtackStatus.INVALID;
+//				result.setResult(status);
+//				return result;
+//			}
+//		}
+
+		for (int i = 0; i < ships.size(); i++) {
+			for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) {
+				if (ships.get(i).getOccupiedSquares().get(j).getRow() == attackedTo.getRow() && ships.get(i).getOccupiedSquares().get(j).getColumn() == attackedTo.getColumn()) {
+					if (ships.get(i).getCaptainQuarters().get(0).getRow() == attackedTo.getRow() && ships.get(i).getCaptainQuarters().get(0).getColumn() == attackedTo.getColumn()) {
+						hitCap(result, attackedTo, i);
+					} else {
+						normalAttack(result, i, j, attackedTo, 0);
+						if (ships.get(i).getOccupiedSquares().size() == 0) {
+							sunkShip(result, i);
+						}
+					}
+				}
+			}
+
+			if (ships.size() < 3) {
+				if (ships.get(i).getShip_size() == 5) {
+					for (int j = 0; j < ships.get(i).getSubSquares().size(); j++) {
+						if (ships.get(i).getSubSquares().get(j).getRow() == attackedTo.getRow() && ships.get(i).getSubSquares().get(j).getColumn() == attackedTo.getColumn()) {
+							if (ships.get(i).getCapQuarters().get(0).getRow() == attackedTo.getRow() && ships.get(i).getCapQuarters().get(0).getColumn() == attackedTo.getColumn()) {
+								hitCap(resultSub, attackedTo, i);
+//								subAttack(resultSub, i, j, attackedTo, 0);
+								System.out.println("ships.get(i).getHealth(): '" + ships.get(i).getHealth() + "'");
+							} else {
+								subAttack(resultSub, i, j, attackedTo, 0);
+
+								if (ships.get(i).getSubSquares().size() == 0) {
+									sunkShip(resultSub, i);
+								}
+							}
+						}
+					}
+					System.out.println("resultSub.getResult(): '" + resultSub.getResult() + "'");
+					if (resultSub.getResult() != null) {
+						System.out.println("result = '" + resultSub.getResult() + "'");
+						result = resultSub;
+					}
+				}
+			}
+		}
+
+		System.out.println("result: '" + result.getResult() + "'\n");
+//		System.out.println("ships.size(): '" + ships.size() + "'");
+
+		if (result.getResult() == null) {
+			normalAttack(result, 0, 0, attackedTo, 1);
+		}
+        return result;
 	}
 
 	// Returns null if the given square is empty or has already been hit, otherwise it returns the square.

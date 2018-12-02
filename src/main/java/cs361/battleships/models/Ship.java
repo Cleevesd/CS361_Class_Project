@@ -41,6 +41,8 @@ public class Ship {
 		}
 		occupiedSquares = new ArrayList<>();
 		captainQuarters = new ArrayList<>();
+		subSquares = new ArrayList<>();
+		capQuarters = new ArrayList<>();
 	}
 
 	public void setShip_size(int ship_size) {
