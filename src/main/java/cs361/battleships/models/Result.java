@@ -19,16 +19,6 @@ public class Result {
 		status = result;
 	}
 
-	public Ship getShip() {
-		//TODO implement
-		return this.ship;
-	}
-
-	public void setShip(Ship ship) {
-		this.ship = ship;
-		//TODO implement
-	}
-
 	public Square getLocation() {
 		//TODO implement
 		return this.square;

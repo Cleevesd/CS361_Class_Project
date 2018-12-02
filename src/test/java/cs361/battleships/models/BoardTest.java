@@ -34,7 +34,7 @@ public class BoardTest {
     }
 
     @Test
-    public  void  testInValidAttack() {
+    public void testInValidAttack() {
         Board board = new Board();
         Result result = new Result();
         Result result1 = new Result();
@@ -144,6 +144,50 @@ public class BoardTest {
     }
 
     @Test
+    public void testSubSubmergedHorizPlaced () {
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("SUBMARINE"), 5, 'B', false, true));
+    }
+
+    @Test
+    public void testSubSubmergedVertPlaced () {
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("SUBMARINE"), 5, 'B', true, true));
+    }
+
+    @Test
+    public void testDestroyerCap () {
+        Board board = new Board();
+        board.placeShip(new Ship("DESTROYER"), 1, 'A', false, false);
+
+        Result result1 = new Result();
+        Result result2 = new Result();
+
+
+        result1 = board.attack(1,'B');
+        assertSame(AtackStatus.MISS, result1.getResult());
+        result2 = board.attack(1,'B');
+        assertSame(AtackStatus.SURRENDER, result2.getResult());
+    }
+
+    @Test
+    public void testSunkFunc () {
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("DESTROYER"), 5, 'A', false, false));
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false, false));
+
+        Result result1 = new Result();
+        Result result2 = new Result();
+
+        result1 = board.attack(1, 'B');
+        assertSame(AtackStatus.HIT, result1.getResult());
+        result2 = board.attack(1, 'A');
+        assertSame(AtackStatus.HIT, result2.getResult());   // Attack function records as a hit first
+
+        board.sunkShip(result2, 1);
+        assertSame(AtackStatus.SUNK, result2.getResult());
+    }
+
     public void testMoveFleetEdgeConditionNORTH() {
         Board board = new Board();
         Result result = new Result();
@@ -162,6 +206,7 @@ public class BoardTest {
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(0).getColumn() == 'A');
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getRow() == 2);
         assertTrue(board.getShips().get(0).getOccupiedSquares().get(1).getColumn() == 'A');
+
     }
 }
 
